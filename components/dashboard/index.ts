@@ -6,3 +6,8 @@ export {
   OverviewActivity,
   OverviewActivitySkeleton,
 } from "./overview-activity";
+export { TimelinePanel } from "./timeline-panel";
+export {
+  TimelineActivity,
+  TimelineActivitySkeleton,
+} from "./timeline-activity";

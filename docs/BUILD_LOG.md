@@ -228,3 +228,58 @@
 ### Open questions
 
 - None. Ready for Step 6 (Issues, Reviews, Processing, Timeline).
+
+## Step 6 — Issues, Reviews, Processing, Timeline
+
+### What changed
+
+- **Data Retrieval (Issues & Reviews)**:
+  - `lib/github/issues.ts`: Implemented `getIssues(owner, repo, author, from, to)` querying GitHub Search API (`repo:{owner}/{repo} is:issue author:{login} created:{from}..{to}`). Maps to `IssueItem` (number, title, state, createdAt, closedAt, labels, url).
+  - `lib/github/reviews.ts`: Implemented `getReviews(owner, repo, login, from, to)`. Finds candidate PRs via `is:pr reviewed-by:{login} repo:{owner}/{repo} updated:>={from} -author:{login}` (capped at 100 with warning). Fetches reviews per PR with `mapWithConcurrency(candidatePrs, 5)` using `GET /repos/{owner}/{repo}/pulls/{number}/reviews`. Keeps only reviews submitted by the user within the date range. Discards inline comments; counts submitted reviews only.
+  - Exported `getIssues` and `getReviews` in `lib/github/index.ts`.
+- **Activity Aggregation Extension (`lib/contributions/get-activity.ts`)**:
+  - Extended `getRepositoryActivity` to fetch commits, pull requests, issues, and reviews concurrently using `Promise.allSettled`.
+  - Preserves full partial failure resilience: if any individual source fails or is rate-limited, remaining sources render and failures are reported in `errors`.
+- **Domain Models & Discriminated Unions (`types/contributions.ts`)**:
+  - Defined `IssueItem`, `ReviewItem`, `ContributionCategory`, `DayTimelineGroup`, and `ContributionSummary`.
+  - Defined `ActivityItem` as a discriminated union on `kind: "commit" | "pull_request" | "issue" | "review"`.
+- **Pure Processing Layer (`lib/contributions/`)**:
+  - `categorize.ts`: Pure `categorizeContribution(title, labels)` function evaluating:
+    1. Conventional Commit prefixes (`feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `chore`, `style`, `ci`, `build`) with optional scope and `!` breaking change indicator (e.g. `feat(auth)!: ...`).
+    2. GitHub issue/PR labels (`bug`, `enhancement`, `documentation`, etc.).
+    3. Title keywords with strict word boundaries (`\b(fix|bug|implement|feature|test|doc)\b`).
+    4. Fallback to `other`.
+  - `summarize.ts`: Pure `summarizeContributions(activity, timeZone)` computing total counts, merged PRs, active calendar days in `tz`, additions/deletions from PRs, first/last activity timestamps, and category breakdowns. Includes `getLocalDateString(isoDate, timeZone)` helper using `Intl.DateTimeFormat`.
+  - `timeline.ts`: Pure `buildTimeline(activity, timeZone)` grouping all activity items by local date in target timezone, sorted chronologically descending (newest first).
+- **Unit Test Suite (`test/contributions.test.ts`)**:
+  - Added `vitest` unit test suite covering:
+    - Conventional Commit prefixes with scope and `!`.
+    - Standard prefixes without scope.
+    - GitHub label priorities over generic titles.
+    - Word boundary fallbacks on titles.
+    - Unclassifiable items falling back to `other`.
+    - Empty range handling (zero counts, null timestamps).
+    - Local timezone day shifting (e.g. `23:30Z` on June 4th correctly shifts to `June 5th` in `Africa/Addis_Ababa` [UTC+3]).
+    - Active days and category aggregation across mixed sources.
+    - Chronological timeline grouping and sorting.
+- **UI Updates (`components/dashboard/`)**:
+  - `OverviewActivity`: Updated to render complete `ContributionSummary` rows (Commits, Pull requests, Merged PRs, Issues, Reviews with "submitted reviews only" footnote, Active days in `tz`, Code changes `+additions / -deletions`) and a "By category" table.
+  - `TimelineActivity`: Rendered day group containers with sticky-style headers, 22–24px dense item rows, hover highlights, local time in `tz`, kind badges (`[commit]`, `[pr]`, `[issue]`, `[review]`), reference links (`#number` / short SHA), truncated titles, category tags, problems notice, and loading skeleton.
+  - `TimelinePanel`: Created wrapper component with scope header and `React.Suspense` fallback.
+  - `app/dashboard/page.tsx`: Replaced placeholder timeline with real `TimelinePanel`.
+
+### Decisions and why
+
+- **Pure Processing Functions Separated from I/O**: `categorize.ts`, `summarize.ts`, and `timeline.ts` are pure functions with zero network or server dependencies. This ensures deterministic behavior and enables blazing-fast unit testing without mocking network layers.
+- **Submitted Reviews Only**: Inline PR comments are discussion remarks, not formal review milestones. Attributing each inline comment as a review contribution inflates metrics deceptively. Only reviews with `submitted_at` from `GET /repos/{owner}/{repo}/pulls/{number}/reviews` are counted, and this design choice is clearly stated in the UI.
+- **Local Timezone Day Attribution**: Contributions occurring near midnight UTC often belong to a different calendar day in the developer's local timezone (e.g. UTC+3 shifts 23:30Z into the next morning). Converting timestamps to the local calendar day using `Intl.DateTimeFormat("en-CA", { timeZone })` guarantees active days and timeline headers match the developer's local working days.
+- **Word Boundary Matching**: Keyword matching uses regex word boundaries (`\b`) to prevent false positives (e.g., words like "prefix" or "affix" matching "fix").
+
+### Known limitations
+
+- Candidate PRs for reviews are capped at 100 to prevent secondary rate limits when checking review details across large repositories. A warning is surfaced if candidate PRs reach this ceiling.
+- Search API results are capped at 1,000 items by GitHub.
+
+### Open questions
+
+- None. Ready for Step 7 (Pull request tab, charts, hardening, deploy readiness).

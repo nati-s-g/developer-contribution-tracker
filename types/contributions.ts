@@ -61,8 +61,103 @@ export interface PullRequestSummary {
   url: string;
 }
 
+export interface IssueItem {
+  number: number;
+  title: string;
+  state: "open" | "closed";
+  createdAt: string;
+  closedAt: string | null;
+  labels: string[];
+  url: string;
+}
+
+export interface ReviewItem {
+  id: number;
+  prNumber: number;
+  prTitle: string;
+  prUrl: string;
+  state: string; // APPROVED, CHANGES_REQUESTED, COMMENTED, DISMISSED
+  submittedAt: string;
+}
+
+export type ContributionCategory =
+  "feature" | "bugfix" | "refactor" | "docs" | "test" | "chore" | "other";
+
+export type ActivityKind = "commit" | "pull_request" | "issue" | "review";
+
+interface BaseActivityItem {
+  id: string;
+  title: string;
+  url: string;
+  occurredAt: string; // ISO 8601
+  category: ContributionCategory;
+}
+
+export interface CommitActivityItem extends BaseActivityItem {
+  kind: "commit";
+  sha: string;
+  shortSha: string;
+  message: string;
+}
+
+export interface PullRequestActivityItem extends BaseActivityItem {
+  kind: "pull_request";
+  number: number;
+  state: PullRequestState;
+  draft: boolean;
+  merged: boolean;
+  additions: number;
+  deletions: number;
+  changedFiles: number;
+}
+
+export interface IssueActivityItem extends BaseActivityItem {
+  kind: "issue";
+  number: number;
+  state: "open" | "closed";
+  labels: string[];
+}
+
+export interface ReviewActivityItem extends BaseActivityItem {
+  kind: "review";
+  prNumber: number;
+  prTitle: string;
+  state: string;
+}
+
+export type ActivityItem =
+  | CommitActivityItem
+  | PullRequestActivityItem
+  | IssueActivityItem
+  | ReviewActivityItem;
+
+export interface DayTimelineGroup {
+  date: string; // YYYY-MM-DD in user's time zone
+  items: ActivityItem[];
+}
+
+export interface ContributionSummary {
+  commits: number;
+  pullRequests: number;
+  mergedPullRequests: number;
+  issues: number;
+  reviews: number;
+  activeDays: number;
+  additions: number;
+  deletions: number;
+  firstActivityAt: string | null;
+  lastActivityAt: string | null;
+  byCategory: Record<ContributionCategory, number>;
+}
+
 export interface ActivitySourceError {
-  source: "commits" | "pull-requests" | "repositories" | "general";
+  source:
+    | "commits"
+    | "pull-requests"
+    | "issues"
+    | "reviews"
+    | "repositories"
+    | "general";
   message: string;
   status?: number;
   resetTime?: Date;
@@ -71,6 +166,8 @@ export interface ActivitySourceError {
 export interface RepositoryActivity {
   commits: CommitItem[];
   pullRequests: PullRequestSummary[];
+  issues: IssueItem[];
+  reviews: ReviewItem[];
   errors: ActivitySourceError[];
   warnings: string[];
 }

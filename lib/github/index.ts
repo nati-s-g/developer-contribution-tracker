@@ -16,3 +16,5 @@ export { listRepositories, getRepository } from "./repositories";
 export { getViewerLogin } from "./user";
 export { getCommits } from "./commits";
 export { getPullRequests } from "./pull-requests";
+export { getIssues } from "./issues";
+export { getReviews } from "./reviews";

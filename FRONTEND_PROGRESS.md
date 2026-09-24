@@ -28,4 +28,34 @@
 
 ### Next:
 
-- Step 5 — GitHub Data Engine (Commits, Pull Requests, processing, and activity aggregation).
+- Completed in Step 5 & 6.
+
+## Step 5 Completed
+
+### Completed:
+
+- Added `lib/github/user.ts` (`getViewerLogin()`) to ensure viewer identity is locked to the authenticated user.
+- Implemented bounded concurrency helper `lib/utils/concurrency.ts` (`mapWithConcurrency`).
+- Created `lib/github/commits.ts` and `lib/github/pull-requests.ts` with pagination and Search API queries.
+- Created `lib/contributions/get-activity.ts` with `Promise.allSettled` and partial failure tolerance.
+- Built `OverviewActivity` with shadcn table and skeleton components, displaying commit/PR counts and latest tables.
+
+## Step 6 Completed
+
+### Completed:
+
+- Implemented `lib/github/issues.ts` (Search API `is:issue author:{login}`) and `lib/github/reviews.ts` (Search API candidate PRs + reviews per PR, submitted reviews only).
+- Extended `getRepositoryActivity` in `lib/contributions/get-activity.ts` to aggregate commits, pull requests, issues, and reviews concurrently with `Promise.allSettled`.
+- Implemented pure processing functions:
+  - `lib/contributions/categorize.ts`: Conventional Commit prefixes with scope & `!`, labels, word-boundary keywords, and `other` fallback.
+  - `lib/contributions/summarize.ts`: Aggregates counts, additions/deletions, active days in user's IANA time zone, and category breakdown.
+  - `lib/contributions/timeline.ts`: Chronological day grouping in local time zone, sorted newest first.
+- Installed `vitest` and created comprehensive unit tests in `test/contributions.test.ts` (9 tests passing).
+- Updated Overview tab with complete `ContributionSummary` table (with submitted reviews note, additions/deletions from PRs, active days) and "By category" breakdown.
+- Built `TimelineActivity` with day group containers, 22–24px dense item rows, kind tags (`[commit]`, `[pr]`, `[issue]`, `[review]`), reference links, category badges, local time in `tz`, and inline Problems reporting.
+- Wired `TimelinePanel` in `app/dashboard/page.tsx`.
+- Formatted and verified with `npm run test`, `npm run typecheck`, `npm run lint`, `npm run build`, and `npm run format:check`.
+
+### Next:
+
+- Step 7 of 7 — Pull request tab, charts, hardening, docs, deploy readiness.

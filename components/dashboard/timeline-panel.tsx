@@ -1,11 +1,11 @@
 import * as React from "react";
 import type { RepositorySummary } from "@/types/contributions";
 import {
-  OverviewActivity,
-  OverviewActivitySkeleton,
-} from "./overview-activity";
+  TimelineActivity,
+  TimelineActivitySkeleton,
+} from "./timeline-activity";
 
-interface OverviewPanelProps {
+interface TimelinePanelProps {
   isEmpty: boolean;
   errorMessage: string | null;
   repository: RepositorySummary | null;
@@ -15,7 +15,7 @@ interface OverviewPanelProps {
   timeZone: string;
 }
 
-export function OverviewPanel({
+export function TimelinePanel({
   isEmpty,
   errorMessage,
   repository,
@@ -23,7 +23,7 @@ export function OverviewPanel({
   from,
   to,
   timeZone,
-}: OverviewPanelProps) {
+}: TimelinePanelProps) {
   if (errorMessage) {
     return (
       <div className="space-y-2 font-mono text-xs text-[var(--removed)]">
@@ -48,7 +48,7 @@ export function OverviewPanel({
 
   return (
     <div className="space-y-6">
-      {/* Plain Text Scope Header */}
+      {/* Scope Header */}
       <div className="space-y-1 border-b border-[var(--border)] pb-3 font-mono text-xs">
         <div>
           <span className="text-[var(--fg-muted)]">repo: </span>
@@ -79,9 +79,9 @@ export function OverviewPanel({
         </div>
       </div>
 
-      {/* Activity Data with Suspense Loading */}
-      <React.Suspense fallback={<OverviewActivitySkeleton />}>
-        <OverviewActivity
+      {/* Activity Timeline with Suspense Loading */}
+      <React.Suspense fallback={<TimelineActivitySkeleton />}>
+        <TimelineActivity
           owner={owner}
           repo={name}
           login={login}

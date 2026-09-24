@@ -64,6 +64,8 @@ export interface GitHubSearchIssueItem {
   };
   body?: string | null;
   draft?: boolean;
+  user?: GitHubRawOwner | null;
+  labels?: Array<{ id?: number; name?: string; color?: string } | string>;
 }
 
 export interface GitHubSearchResult<T> {
@@ -86,4 +88,15 @@ export interface GitHubRawPullRequest {
   additions?: number;
   deletions?: number;
   changed_files?: number;
+  user?: GitHubRawOwner | null;
+}
+
+export interface GitHubRawReview {
+  id: number;
+  user: GitHubRawOwner | null;
+  body: string | null;
+  state: string;
+  html_url: string;
+  submitted_at: string | null;
+  commit_id: string;
 }
