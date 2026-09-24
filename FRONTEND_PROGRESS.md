@@ -56,6 +56,21 @@
 - Wired `TimelinePanel` in `app/dashboard/page.tsx`.
 - Formatted and verified with `npm run test`, `npm run typecheck`, `npm run lint`, `npm run build`, and `npm run format:check`.
 
-### Next:
+## Step 7 Completed — MVP Done
 
-- Step 7 of 7 — Pull request tab, charts, hardening, docs, deploy readiness.
+### Completed:
+
+- Built `PullRequestsTable` client component with sorting by number, title, state, date, diff changes, files, and category.
+- Created `PullRequestsActivity` and `PullRequestsPanel` components with Suspense loading skeletons and informative empty states.
+- Implemented pure chart processing in `lib/contributions/charts.ts` (`buildWeeklyActivity`, `buildCategoryChartData`) with unit tests in `test/contributions.test.ts`.
+- Integrated two restrained charts on Overview tab using Recharts: weekly activity stacked by kind (starting Monday in `tz`), and contributions by category.
+- Enhanced empty states with troubleshooting hints (date range, commit-email linking, default branch).
+- Built `app/dashboard/error.tsx` error boundary supporting retry, session expiration prompt, and rate-limit messaging.
+- Added GitHub API rate-limit info footer line on Overview.
+- Performed complete security audit on source and built client bundles (`.next/static/`), verifying zero secret leaks.
+- Rewrote `README.md` and created `docs/DECISIONS.md` documenting 10 architectural decisions.
+- Formatted and verified with `npm run test`, `npm run typecheck`, `npm run lint`, `npm run build`, and `npm run format:check`.
+
+### Status:
+
+- All 7 steps of the MVP build plan are complete.

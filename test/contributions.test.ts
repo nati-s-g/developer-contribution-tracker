@@ -4,6 +4,8 @@ import {
   summarizeContributions,
   buildTimeline,
   getLocalDateString,
+  getWeekMonday,
+  buildWeeklyActivity,
 } from "@/lib/contributions";
 import type {
   CommitItem,
@@ -240,5 +242,58 @@ describe("buildTimeline", () => {
       "Africa/Addis_Ababa"
     );
     expect(timelineEat[0].date).toBe("2026-06-05");
+  });
+});
+
+describe("Charts: getWeekMonday & buildWeeklyActivity", () => {
+  it("computes the correct Monday starting date for any day of the week", () => {
+    // 2026-05-17 is Sunday -> Monday 2026-05-11
+    expect(getWeekMonday("2026-05-17")).toBe("2026-05-11");
+    // 2026-05-18 is Monday -> Monday 2026-05-18
+    expect(getWeekMonday("2026-05-18")).toBe("2026-05-18");
+    // 2026-05-20 is Wednesday -> Monday 2026-05-18
+    expect(getWeekMonday("2026-05-20")).toBe("2026-05-18");
+    // 2026-05-23 is Saturday -> Monday 2026-05-18
+    expect(getWeekMonday("2026-05-23")).toBe("2026-05-18");
+  });
+
+  it("builds contiguous weekly activity series and respects timezone bucketing", () => {
+    const from = "2026-05-15";
+    const to = "2026-05-28";
+
+    // 2026-05-17T23:00:00Z:
+    // In UTC, this is Sunday May 17 -> Monday May 11
+    // In UTC+3 (Africa/Addis_Ababa), this is Monday May 18 02:00 -> Monday May 18
+    const commits: CommitItem[] = [
+      {
+        sha: "c1",
+        shortSha: "c1",
+        message: "feat: timezone commit",
+        authoredAt: "2026-05-17T23:00:00.000Z",
+        url: "https://github.com",
+      },
+    ];
+
+    const weeksUtc = buildWeeklyActivity(
+      { commits, pullRequests: [], issues: [], reviews: [] },
+      from,
+      to,
+      "UTC"
+    );
+    const may11Utc = weeksUtc.find((w) => w.week === "2026-05-11");
+    const may18Utc = weeksUtc.find((w) => w.week === "2026-05-18");
+    expect(may11Utc?.commit).toBe(1);
+    expect(may18Utc?.commit).toBe(0);
+
+    const weeksEat = buildWeeklyActivity(
+      { commits, pullRequests: [], issues: [], reviews: [] },
+      from,
+      to,
+      "Africa/Addis_Ababa"
+    );
+    const may11Eat = weeksEat.find((w) => w.week === "2026-05-11");
+    const may18Eat = weeksEat.find((w) => w.week === "2026-05-18");
+    expect(may11Eat?.commit).toBe(0);
+    expect(may18Eat?.commit).toBe(1);
   });
 });

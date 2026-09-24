@@ -1,8 +1,10 @@
-import * as React from "react";
 import {
   getRepositoryActivity,
   summarizeContributions,
+  buildWeeklyActivity,
+  buildCategoryChartData,
 } from "@/lib/contributions";
+import { ActivityCharts } from "./activity-charts";
 import { AlertTriangle, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,10 +47,45 @@ export async function OverviewActivity({
   const recentCommits = commits.slice(0, 10);
   const recentPrs = pullRequests.slice(0, 10);
 
+  const totalContributions =
+    commits.length +
+    pullRequests.length +
+    activity.issues.length +
+    activity.reviews.length;
+  const weeklyData = buildWeeklyActivity(activity, from, to, timeZone);
+  const categoryData = buildCategoryChartData(summary);
+
   const hasProblems = errors.length > 0 || warnings.length > 0;
 
   return (
     <div className="space-y-6 select-text">
+      {/* Empty State with Hints */}
+      {totalContributions === 0 && (
+        <div className="space-y-3 border border-[var(--border)] bg-[var(--bg-editor)] p-4 text-xs text-[var(--fg-muted)]">
+          <div className="text-[var(--fg)]">
+            No contributions found for{" "}
+            <span className="font-mono font-medium text-[var(--fg-strong)]">
+              @{login}
+            </span>{" "}
+            in this repository and date range.
+          </div>
+          <div className="space-y-1 font-mono text-[11px] text-[var(--fg-muted)]">
+            <div className="font-semibold text-[var(--fg)]">Hints:</div>
+            <div>
+              • Check the date range to ensure it covers your contribution
+              period.
+            </div>
+            <div>
+              • Verify commit-email linking: ensure your local git commit email
+              is linked to your GitHub account (GitHub Settings → Emails).
+            </div>
+            <div>
+              • Commits analysis evaluates the repository default branch only.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Problems Notice (Inline IDE Problems style) */}
       {hasProblems && (
         <div className="rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] p-3 text-xs">
@@ -192,6 +229,9 @@ export async function OverviewActivity({
           </table>
         </div>
       </div>
+
+      {/* Two Restrained Recharts: Weekly Activity & Category Breakdown */}
+      <ActivityCharts weeklyData={weeklyData} categoryData={categoryData} />
 
       {/* Latest Commits List */}
       <div className="space-y-1.5">
@@ -338,6 +378,29 @@ export async function OverviewActivity({
           </div>
         )}
       </div>
+
+      {/* GitHub API Rate Limit Footer */}
+      {activity.rateLimit && (
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--border)] pt-3 font-mono text-[11px] text-[var(--fg-muted)]">
+          <span>
+            GitHub API:{" "}
+            <span className="text-[var(--fg-strong)]">
+              {activity.rateLimit.remaining}
+            </span>{" "}
+            / {activity.rateLimit.limit} requests remaining
+          </span>
+          <span>
+            Resets at{" "}
+            {new Date(activity.rateLimit.reset).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              timeZone,
+            })}{" "}
+            ({timeZone})
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -374,6 +437,18 @@ export function OverviewActivitySkeleton() {
             <div className="h-5 w-full animate-pulse rounded-[1px] bg-[var(--bg-tab)]" />
             <div className="h-5 w-full animate-pulse rounded-[1px] bg-[var(--bg-tab)]" />
           </div>
+        </div>
+      </div>
+
+      {/* Charts skeleton */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="h-56 border border-[var(--border)] bg-[var(--bg-editor)] p-3">
+          <div className="h-4 w-40 animate-pulse rounded-[1px] bg-[var(--bg-tab)]" />
+          <div className="mt-4 h-40 animate-pulse rounded-[1px] bg-[var(--bg-tab)]" />
+        </div>
+        <div className="h-56 border border-[var(--border)] bg-[var(--bg-editor)] p-3">
+          <div className="h-4 w-40 animate-pulse rounded-[1px] bg-[var(--bg-tab)]" />
+          <div className="mt-4 h-40 animate-pulse rounded-[1px] bg-[var(--bg-tab)]" />
         </div>
       </div>
 

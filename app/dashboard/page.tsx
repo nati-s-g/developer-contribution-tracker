@@ -1,6 +1,10 @@
 import * as React from "react";
 import { EditorTabs, type EditorTabItem } from "@/components/shell";
-import { OverviewPanel, TimelinePanel } from "@/components/dashboard";
+import {
+  OverviewPanel,
+  TimelinePanel,
+  PullRequestsPanel,
+} from "@/components/dashboard";
 import { getRepository, getViewerLogin } from "@/lib/github";
 import { parseDashboardParams } from "@/lib/utils/search-params";
 import type { RepositorySummary } from "@/types/contributions";
@@ -54,9 +58,6 @@ export default async function DashboardPage({
   }
 
   const errorMessage = paramError || repoAccessError;
-  const isSelectionActive = Boolean(
-    parsed.hasSelection && parsed.isValid && repository && !errorMessage
-  );
 
   const tabs: EditorTabItem[] = [
     {
@@ -94,9 +95,13 @@ export default async function DashboardPage({
       label: "Pull Requests",
       content: (
         <PullRequestsPanel
-          isEmpty={!isSelectionActive}
+          isEmpty={!parsed.hasSelection && !errorMessage}
           errorMessage={errorMessage}
           repository={repository}
+          login={viewerLogin}
+          from={parsed.from}
+          to={parsed.to}
+          timeZone={parsed.tz}
         />
       ),
     },
@@ -105,37 +110,6 @@ export default async function DashboardPage({
   return (
     <div className="flex h-full flex-col overflow-hidden">
       <EditorTabs tabs={tabs} defaultTab="overview" />
-    </div>
-  );
-}
-
-/* =========================================================================
-   DASHBOARD TAB PANELS
-   Classic IDE styling: flat, dense, monospace data, no decorative chrome.
-   ========================================================================= */
-
-function PullRequestsPanel({
-  isEmpty,
-  errorMessage,
-  repository,
-}: {
-  isEmpty: boolean;
-  errorMessage: string | null;
-  repository: RepositorySummary | null;
-}) {
-  if (errorMessage || isEmpty || !repository) {
-    return (
-      <div className="text-xs text-[var(--fg-muted)]">
-        Select a repository and date range, then Load activity
-      </div>
-    );
-  }
-
-  return (
-    <div className="text-xs text-[var(--fg-muted)]">
-      Pull request summary for{" "}
-      <span className="font-mono text-[var(--fg)]">{repository.fullName}</span>{" "}
-      will be loaded in Step 5 & 6.
     </div>
   );
 }

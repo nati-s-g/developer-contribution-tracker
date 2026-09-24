@@ -283,3 +283,53 @@
 ### Open questions
 
 - None. Ready for Step 7 (Pull request tab, charts, hardening, deploy readiness).
+
+## Step 7 — Pull Request Tab, Charts, Hardening, Docs, Deploy Readiness
+
+### What changed
+
+- **Pull Requests Tab (`components/dashboard/`)**:
+  - `pull-requests-table.tsx`: Dense table with `#number`, title (links to GitHub), state (colored-dot tag for merged/open/closed), merged date, `+additions / -deletions`, changed files, and category tag. Summary line above table shows total count, merged count, and total additions/deletions. Added lightweight client-side sorting across all columns (toggle asc/desc).
+  - `pull-requests-activity.tsx`: Async Server Component fetching PR activity with inline Problems notice and empty state hints.
+  - `pull-requests-panel.tsx`: Panel wrapper with scope header and `PullRequestsActivitySkeleton`.
+  - Wired into `app/dashboard/page.tsx` under the "Pull Requests" tab.
+- **Two Restrained Charts (Recharts)**:
+  - `lib/contributions/charts.ts`: Pure helpers `buildWeeklyActivity` and `buildCategoryChartData`. Weeks always start on Monday and are bucketed in the user's IANA `tz`.
+  - Added unit test suite in `test/contributions.test.ts` verifying Monday alignment and timezone shift (11 tests passing total).
+  - `components/dashboard/activity-charts.tsx`: Two charts rendered below stat rows:
+    1. **Weekly Activity (Stacked by Kind)**: Commits (`--fg-muted`), PRs (`--link`), Issues (`--open`), Reviews (`--merged`). Monospace axes, subtle gridlines, no gradients, no animations.
+    2. **Contributions by Category (Horizontal Bars)**: Deterministic classification counts in horizontal layout.
+- **Robust States & Footer**:
+  - Empty state with clear troubleshooting hints: check date range, verify local git email is linked to GitHub account (Settings → Emails), and note that commits analyze default branch.
+  - Loading: Suspense skeletons matching IDE style across all tabs.
+  - Error boundary: `app/dashboard/error.tsx` with retry (`reset()`), session expiration handling ("Sign in again"), rate-limit reset notifications, and not found / access denied handling.
+  - GitHub API rate-limit info footer line on Overview: remaining/limit requests and local reset timestamp.
+- **Security Audit**:
+  - Inspected source code and built `.next/static/` client bundle: zero tokens or secrets exposed.
+  - Verified all modules in `lib/github/` enforce `import "server-only";` on line 1.
+  - Verified `SESSION_SECRET` is at least 32 characters and cookies use AES-256-GCM, HttpOnly, and SameSite=Lax.
+  - Verified `.env.local` is in `.gitignore` and `.env.example` has names only.
+  - Ran `npm audit`: 2 moderate vulnerabilities in devDependency (`vitest`), zero production runtime vulnerabilities. Documented per policy without `--force`.
+- **Documentation**:
+  - Completely rewrote `README.md` with layer diagram, setup instructions, scripts, security architecture, and limitations.
+  - Created `docs/DECISIONS.md` containing 10 architectural decisions with alternatives and interview talking points.
+  - Updated `FRONTEND_PROGRESS.md`.
+- **Vercel Readiness**:
+  - Validated that the application is fully stateless with no local filesystem or process memory dependencies.
+  - Documented deployment steps and production GitHub OAuth App setup.
+
+### Decisions and why
+
+- **Client-Side Sorting on PRs**: Keeping sorting in the client component (`PullRequestsTable`) provides instant responsiveness without router transitions or re-fetching GitHub data.
+- **Strictly Two Restrained Charts**: Two charts convey chronological velocity and domain focus without cluttering the screen. Additional charts (e.g. pie charts, heatmaps) would duplicate information already present in the tables and violate the classic IDE aesthetic.
+- **No Animations on Charts**: Per the `classic-ide-ui` design system, `isAnimationActive={false}` prevents distracting visual effects and keeps the interface feeling like a professional developer tool.
+
+### Known limitations
+
+- Commits analysis evaluates the repository's default branch only.
+- Unlinked git commit emails cannot be matched to GitHub user accounts.
+- GitHub Search API enforces an upper ceiling of 1,000 items per query.
+
+### Open questions
+
+- None. The MVP pipeline is complete, hardened, and verified end-to-end.

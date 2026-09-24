@@ -11,3 +11,9 @@ export {
   TimelineActivity,
   TimelineActivitySkeleton,
 } from "./timeline-activity";
+export { PullRequestsPanel } from "./pull-requests-panel";
+export {
+  PullRequestsActivity,
+  PullRequestsActivitySkeleton,
+} from "./pull-requests-activity";
+export { PullRequestsTable } from "./pull-requests-table";
