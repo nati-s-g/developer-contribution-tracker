@@ -429,3 +429,21 @@
 - Configured Apple touch icon and standard PNG icon arrays in `RootLayout` and `DashboardLayout`.
 - Refined `TitleBar` and `WelcomePage` header logo elements with `priority` preloading, `drop-shadow`, and 20px sizing.
 - Synchronized branch with `origin/main` to ensure Vercel production build deploys the updated logo and branding.
+
+## OAuth Dynamic Redirect URI Fix (Vercel & Multi-Environment Support)
+
+### What changed
+
+- **Root Cause**: On Vercel, when `NEXT_PUBLIC_APP_URL` was not explicitly set in environment variables, `getAuthConfig()` fell back to `http://localhost:3000`. The OAuth authorization URL sent `redirect_uri=http://localhost:3000/api/auth/callback/github`, which GitHub rejected with "The redirect_uri is not associated with this application."
+- **Dynamic Origin Resolution (`lib/auth/config.ts`)**:
+  - Implemented `resolveAppUrl(request?: Request)` inspecting `x-forwarded-proto` and `x-forwarded-host` from the incoming request (standard on Vercel and reverse proxies), `request.url origin`, `NEXT_PUBLIC_APP_URL`, and `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL`.
+  - Updated `getAuthConfig(request?: Request)` to use `resolveAppUrl(request)`.
+- **OAuth Route Handlers (`app/api/auth/`)**:
+  - `app/api/auth/github/route.ts`: Updated `GET(request: Request)` to pass incoming request into `getAuthConfig(request)`.
+  - `app/api/auth/callback/github/route.ts`: Passed `request` into `getAuthConfig(request)` to guarantee consistent `redirect_uri` during token exchange.
+- **Verification**:
+  - `npm run format`: passed.
+  - `npm run typecheck`: passed (0 errors).
+  - `npm run lint`: passed (0 errors).
+  - `npm run test`: 14 unit tests passing.
+  - Production build: succeeded (`npm run build`).

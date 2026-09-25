@@ -346,3 +346,25 @@ describe("parseDashboardParams and timezone validation", () => {
     expect(parsed.errors.to).toBeUndefined();
   });
 });
+
+describe("resolveAppUrl dynamic origin resolution", () => {
+  it("resolves dynamic Vercel host from x-forwarded headers", async () => {
+    const { resolveAppUrl } = await import("@/lib/auth/config");
+    const req = new Request("https://localhost:3000/api/auth/github", {
+      headers: {
+        "x-forwarded-proto": "https",
+        "x-forwarded-host": "developer-contribution-tracker.vercel.app",
+      },
+    });
+
+    expect(resolveAppUrl(req)).toBe(
+      "https://developer-contribution-tracker.vercel.app"
+    );
+  });
+
+  it("resolves standard request url origin when headers are absent", async () => {
+    const { resolveAppUrl } = await import("@/lib/auth/config");
+    const req = new Request("https://custom-domain.com/api/auth/github");
+    expect(resolveAppUrl(req)).toBe("https://custom-domain.com");
+  });
+});
