@@ -8,7 +8,11 @@ export const metadata: Metadata = {
   title: "Dashboard · Developer Contribution Tracker",
   description: "View and filter repository contribution activity",
   icons: {
-    icon: "/logo-icon.png",
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/logo-icon.png", type: "image/png" },
+    ],
+    apple: "/logo-icon.png",
   },
 };
 
