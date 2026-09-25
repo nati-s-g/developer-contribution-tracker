@@ -123,21 +123,21 @@ export async function OverviewActivity({
       {/* Summary Counts & By Category Section */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Full Stat Rows from ContributionSummary */}
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 font-sans">
           <h3 className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
-            Summary Counts
+            Summary
           </h3>
-          <table className="w-full border border-[var(--border)] bg-[var(--bg-editor)] text-xs">
+          <table className="w-full border border-[var(--border)] bg-[var(--bg-editor)] font-sans text-xs">
             <tbody>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
                 <td className="px-2 text-[var(--fg-muted)]">Commits</td>
-                <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                   {summary.commits}
                 </td>
               </tr>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
                 <td className="px-2 text-[var(--fg-muted)]">Pull requests</td>
-                <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                   {summary.pullRequests}
                 </td>
               </tr>
@@ -145,35 +145,27 @@ export async function OverviewActivity({
                 <td className="px-2 text-[var(--fg-muted)]">
                   Merged pull requests
                 </td>
-                <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                   {summary.mergedPullRequests}
                 </td>
               </tr>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
                 <td className="px-2 text-[var(--fg-muted)]">Issues opened</td>
-                <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                   {summary.issues}
                 </td>
               </tr>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
                 <td className="px-2 text-[var(--fg-muted)]">
-                  <span>Reviews submitted</span>
-                  <span className="ml-1 text-[10px] text-[var(--fg-muted)] opacity-70">
-                    (submitted only)
-                  </span>
+                  Reviews submitted
                 </td>
-                <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                   {summary.reviews}
                 </td>
               </tr>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
-                <td className="px-2 text-[var(--fg-muted)]">
-                  <span>Active days</span>
-                  <span className="ml-1 font-mono text-[10px] text-[var(--fg-muted)] opacity-70">
-                    ({timeZone})
-                  </span>
-                </td>
-                <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                <td className="px-2 text-[var(--fg-muted)]">Active days</td>
+                <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                   {summary.activeDays}
                 </td>
               </tr>
@@ -193,11 +185,11 @@ export async function OverviewActivity({
         </div>
 
         {/* By Category Breakdown */}
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 font-sans">
           <h3 className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
-            By Category
+            Categories
           </h3>
-          <table className="w-full border border-[var(--border)] bg-[var(--bg-editor)] text-xs">
+          <table className="w-full border border-[var(--border)] bg-[var(--bg-editor)] font-sans text-xs">
             <tbody>
               {(
                 [
@@ -217,10 +209,8 @@ export async function OverviewActivity({
                     idx < arr.length - 1 && "border-b border-[var(--border)]"
                   )}
                 >
-                  <td className="px-2 font-mono text-[var(--fg-muted)]">
-                    {cat}
-                  </td>
-                  <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
+                  <td className="px-2 text-[var(--fg-muted)]">{cat}</td>
+                  <td className="px-2 text-right font-medium text-[var(--fg-strong)]">
                     {summary.byCategory[cat]}
                   </td>
                 </tr>
@@ -233,14 +223,14 @@ export async function OverviewActivity({
       {/* Two Restrained Recharts: Weekly Activity & Category Breakdown */}
       <ActivityCharts weeklyData={weeklyData} categoryData={categoryData} />
 
-      {/* Latest Commits List */}
-      <div className="space-y-1.5">
+      {/* Commits List */}
+      <div className="space-y-1.5 font-sans">
         <div className="flex items-center justify-between">
           <h3 className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
-            Latest Commits ({commits.length})
+            Commits ({commits.length})
           </h3>
           {commits.length > 10 && (
-            <span className="font-mono text-[10px] text-[var(--fg-muted)]">
+            <span className="text-[10px] text-[var(--fg-muted)]">
               Showing 10 most recent
             </span>
           )}
@@ -254,8 +244,8 @@ export async function OverviewActivity({
           </div>
         ) : (
           <div className="w-full overflow-x-auto border border-[var(--border)] bg-[var(--bg-editor)]">
-            <table className="w-full text-left text-xs">
-              <thead className="border-b border-[var(--border)] bg-[var(--bg-sidebar)] font-mono text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
+            <table className="w-full text-left font-sans text-xs">
+              <thead className="border-b border-[var(--border)] bg-[var(--bg-sidebar)] font-sans text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
                 <tr className="h-6">
                   <th className="w-20 px-2 font-medium">SHA</th>
                   <th className="px-2 font-medium">Message</th>
@@ -264,7 +254,7 @@ export async function OverviewActivity({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border)] font-mono">
+              <tbody className="divide-y divide-[var(--border)] font-sans">
                 {recentCommits.map((commit) => (
                   <tr
                     key={commit.sha}
@@ -275,11 +265,11 @@ export async function OverviewActivity({
                         href={commit.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-[var(--link)] hover:underline"
+                        className="inline-flex items-center gap-1 font-mono text-[var(--link)] hover:underline"
                         title={commit.sha}
                       >
                         <span>{commit.shortSha}</span>
-                        <ExternalLink className="size-2.5 opacity-60" />
+                        <ExternalLink className="size-3.5 text-[var(--fg-muted)] opacity-70" />
                       </a>
                     </td>
                     <td className="max-w-md truncate px-2 font-sans text-[var(--fg)]">
@@ -296,14 +286,14 @@ export async function OverviewActivity({
         )}
       </div>
 
-      {/* Latest Pull Requests List */}
-      <div className="space-y-1.5">
+      {/* Pull Requests List */}
+      <div className="space-y-1.5 font-sans">
         <div className="flex items-center justify-between">
           <h3 className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
-            Latest Pull Requests ({pullRequests.length})
+            Pull requests ({pullRequests.length})
           </h3>
           {pullRequests.length > 10 && (
-            <span className="font-mono text-[10px] text-[var(--fg-muted)]">
+            <span className="text-[10px] text-[var(--fg-muted)]">
               Showing 10 most recent
             </span>
           )}
@@ -317,8 +307,8 @@ export async function OverviewActivity({
           </div>
         ) : (
           <div className="w-full overflow-x-auto border border-[var(--border)] bg-[var(--bg-editor)]">
-            <table className="w-full text-left text-xs">
-              <thead className="border-b border-[var(--border)] bg-[var(--bg-sidebar)] font-mono text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
+            <table className="w-full text-left font-sans text-xs">
+              <thead className="border-b border-[var(--border)] bg-[var(--bg-sidebar)] font-sans text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
                 <tr className="h-6">
                   <th className="w-16 px-2 font-medium">PR</th>
                   <th className="px-2 font-medium">Title</th>
@@ -329,7 +319,7 @@ export async function OverviewActivity({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border)] font-mono">
+              <tbody className="divide-y divide-[var(--border)] font-sans">
                 {recentPrs.map((pr) => (
                   <tr
                     key={pr.number}
@@ -340,10 +330,10 @@ export async function OverviewActivity({
                         href={pr.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-[var(--link)] hover:underline"
+                        className="inline-flex items-center gap-1 font-mono text-[var(--link)] hover:underline"
                       >
                         <span>#{pr.number}</span>
-                        <ExternalLink className="size-2.5 opacity-60" />
+                        <ExternalLink className="size-3.5 text-[var(--fg-muted)] opacity-70" />
                       </a>
                     </td>
                     <td className="max-w-md truncate px-2 font-sans text-[var(--fg)]">
@@ -360,7 +350,7 @@ export async function OverviewActivity({
                         <span className="text-[var(--closed)]">closed</span>
                       )}
                     </td>
-                    <td className="px-2 text-right text-[11px] whitespace-nowrap">
+                    <td className="px-2 text-right font-mono text-[11px] whitespace-nowrap">
                       <span className="text-[var(--added)]">
                         +{pr.additions}
                       </span>{" "}
@@ -381,22 +371,25 @@ export async function OverviewActivity({
 
       {/* GitHub API Rate Limit Footer */}
       {activity.rateLimit && (
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--border)] pt-3 font-mono text-[11px] text-[var(--fg-muted)]">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--border)] pt-3 font-sans text-[11px] text-[var(--fg-muted)]">
           <span>
             GitHub API:{" "}
-            <span className="text-[var(--fg-strong)]">
+            <span className="font-mono text-[var(--fg-strong)]">
               {activity.rateLimit.remaining}
             </span>{" "}
-            / {activity.rateLimit.limit} requests remaining
+            / <span className="font-mono">{activity.rateLimit.limit}</span>{" "}
+            requests remaining
           </span>
           <span>
             Resets at{" "}
-            {new Date(activity.rateLimit.reset).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-              timeZone,
-            })}{" "}
+            <span className="font-mono">
+              {new Date(activity.rateLimit.reset).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                timeZone,
+              })}
+            </span>{" "}
             ({timeZone})
           </span>
         </div>

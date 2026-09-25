@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { GitFork, Lock, Check } from "lucide-react";
+import { GitBranch, Lock, Check } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -41,11 +41,11 @@ export function RepositoryPicker({
 
   return (
     <div className="w-full space-y-1">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between font-sans">
         <label className="text-[11px] font-medium text-[var(--fg-muted)]">
           Repository
         </label>
-        <span className="font-mono text-[10px] text-[var(--fg-muted)]">
+        <span className="text-[10px] text-[var(--fg-muted)]">
           {repositories.length} available
         </span>
       </div>
@@ -62,18 +62,18 @@ export function RepositoryPicker({
                   : "Select repository"
               }
               className={cn(
-                "flex h-8 w-full items-center justify-between rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-xs text-[var(--fg)] transition-colors select-none",
+                "flex h-8 w-full items-center justify-between rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 text-xs text-[var(--fg)] transition-colors select-none",
                 "hover:border-[var(--fg-muted)] hover:bg-[var(--hover)] focus-visible:outline-1 focus-visible:outline-[var(--focus)]",
                 open && "border-[var(--focus)]"
               )}
             >
               <div className="flex items-center gap-1.5 truncate">
                 {currentRepo?.private ? (
-                  <Lock className="size-3 shrink-0 text-[var(--warning)]" />
+                  <Lock className="size-3.5 shrink-0 text-[var(--warning)]" />
                 ) : (
-                  <GitFork className="size-3 shrink-0 text-[var(--link)]" />
+                  <GitBranch className="size-3.5 shrink-0 text-[var(--link)]" />
                 )}
-                <span className="truncate">
+                <span className="truncate font-mono">
                   {selectedRepo || "Select repository…"}
                 </span>
               </div>
@@ -144,11 +144,13 @@ export function RepositoryPicker({
                       >
                         <div className="flex items-center gap-1.5 truncate">
                           {repo.private ? (
-                            <Lock className="size-3 shrink-0 text-[var(--warning)]" />
+                            <Lock className="size-3.5 shrink-0 text-[var(--warning)]" />
                           ) : (
-                            <GitFork className="size-3 shrink-0 text-[var(--fg-muted)]" />
+                            <GitBranch className="size-3.5 shrink-0 text-[var(--fg-muted)]" />
                           )}
-                          <span className="truncate">{repo.fullName}</span>
+                          <span className="truncate font-mono">
+                            {repo.fullName}
+                          </span>
                         </div>
                         {isSelected && (
                           <Check className="ml-auto size-3 text-white" />

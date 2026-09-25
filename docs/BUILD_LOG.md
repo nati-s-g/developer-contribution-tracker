@@ -333,3 +333,53 @@
 ### Open questions
 
 - None. The MVP pipeline is complete, hardened, and verified end-to-end.
+
+## UI Refinement — Text Simplification & Layout Standardization
+
+### What changed
+
+- **Welcome Page Text Simplification (`app/page.tsx`)**:
+  - Removed duplicate and marketing copy: eliminated the redundant developer vs reviewer cards, verbose feature bullet points, and multi-line architecture boxes that repeated summary counts.
+  - Retained fundamental content only: Application name, concise single-sentence summary, primary GitHub sign-in button, compact 4-item scope badges (Commits, Pull requests, Reviews, Issues), and single-line security footnote.
+  - Centered layout horizontally and vertically with standard developer IDE aesthetic.
+- **Empty States Streamlining (`components/dashboard/`)**:
+  - Simplified empty states across `OverviewPanel`, `TimelinePanel`, and `PullRequestsPanel` from verbose multi-sentence descriptions to a direct instruction: "Select a repository and date range, then click Load activity."
+- **Dashboard Table & Chart De-duplication (`components/dashboard/`)**:
+  - `OverviewActivity`: Removed duplicate parenthetical annotations `(submitted only)` from Reviews and `({timeZone})` from Active Days (timezone is already clearly indicated in the scope header).
+  - `ActivityCharts`: Removed meta rationale disclaimer text and redundant classification subtitle.
+- **Verification**:
+  - `npm run format`: passed.
+  - `npm run lint`: passed (0 errors, 0 warnings).
+  - `npm run typecheck`: passed (0 errors).
+  - `npm run test`: 11 unit tests passing.
+  - `npm run build`: optimized production build succeeded without warnings.
+
+## UI Polish — VS Code, GitHub & Antigravity Developer-Tool Styling
+
+### What changed
+
+- **Typography & Font Tokens (`app/globals.css`)**:
+  - Standardized UI typography using GitHub's system UI font stack (`-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`) defined under `--font-sans`.
+  - Restricted monospace font stack (`ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace`) under `--font-mono` strictly for code-like identifiers: commit SHAs, repository paths, branch names, diff metrics, and terminal glyphs.
+  - Converted buttons, menus, tabs, sidebar labels, table headers, and values to `font-sans`.
+- **Restrained Developer-Tool Icons (`lucide-react`)**:
+  - Sidebar: Added collapsible tree chevron icons (`ChevronDown` / `ChevronRight`, 12px) before "REPOSITORY" and "DATE RANGE" section headers.
+  - Repository Picker & Status Bar: Added genuine Git branch icon (`GitBranch`, 14px) before repository paths and items, replacing placeholder glyphs.
+  - Date Inputs: Integrated calendar icons (`Calendar`, 14px) inside the "From" and "To" input fields.
+  - Tab Bar: Added domain-specific icons for editor tabs — `LayoutGrid` (Overview), `History` (Timeline), and `GitPullRequest` (Pull Requests).
+  - Table & Links: Standardized external link icons (`ExternalLink`, 14px) next to commit SHAs and PR numbers.
+  - Navigation: Added `LogOut` icon (14px) beside "Sign out" in the header.
+- **Redundant Text & Scope Streamlining**:
+  - Dropped the duplicate 4-line metadata header (`repo: / range: / tz: / author:`) from all tab panels (`OverviewPanel`, `TimelinePanel`, `PullRequestsPanel`) since this information is persistently displayed in the sidebar and bottom status bar.
+  - Simplified chart titles from `WEEKLY ACTIVITY (STACKED BY KIND)` to `Weekly activity` and `Contributions by category`.
+  - Simplified table and section headers (`Summary`, `Categories`, `Commits`, `Pull requests`).
+- **Visual Realism & VS Code Editor Tabs**:
+  - Refined editor tabs to match VS Code tabs: 35px tab height, subtle borders, muted text when inactive, and a crisp 2px `--accent` top border on the active tab (`data-active:border-t-2 data-active:border-t-[var(--accent)]`).
+  - Switched the blue bottom status bar to the sans-serif UI font while keeping the repository path in monospace.
+- **Verification**:
+  - Formatted codebase with Prettier (`npm run format`).
+  - Linted with ESLint: 0 errors (`npm run lint`).
+  - Type-checked with TypeScript: 0 errors (`npm run typecheck`).
+  - Unit tests: 11 passing (`npm run test`).
+  - Production build: succeeded (`npm run build`).
+  - Verified localhost HTTP rendering across Overview, Timeline, and Pull Requests tabs (HTTP 200).

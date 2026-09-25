@@ -40,10 +40,10 @@ export function TitleBar({ onOpenMobileSidebar, user = null }: TitleBarProps) {
       </div>
 
       {/* Right: User indicator & Sign Out action */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1 font-mono text-[11px] text-[var(--fg-muted)]">
+      <div className="flex items-center gap-3 font-sans">
+        <div className="flex items-center gap-1 text-[11px] text-[var(--fg-muted)]">
           <span>github:</span>
-          <span className="text-[var(--fg-strong)]">
+          <span className="font-mono text-[var(--fg-strong)]">
             {user ? `@${user}` : "unsigned"}
           </span>
         </div>
@@ -59,9 +59,9 @@ export function TitleBar({ onOpenMobileSidebar, user = null }: TitleBarProps) {
               variant="ghost"
               size="xs"
               aria-label="Sign out"
-              className="h-6 cursor-pointer gap-1 rounded-[2px] px-2 text-xs text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)] focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
+              className="h-6 cursor-pointer gap-1.5 rounded-[2px] px-2 font-sans text-xs text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)] focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
             >
-              <LogOut className="size-3" />
+              <LogOut className="size-3.5 text-[var(--fg-muted)]" />
               <span>Sign out</span>
             </Button>
           </form>
@@ -72,9 +72,9 @@ export function TitleBar({ onOpenMobileSidebar, user = null }: TitleBarProps) {
             size="xs"
             disabled
             aria-label="Sign out (disabled)"
-            className="h-6 cursor-not-allowed gap-1 rounded-[2px] px-2 text-xs text-[var(--fg-muted)] opacity-50 hover:bg-transparent"
+            className="h-6 cursor-not-allowed gap-1.5 rounded-[2px] px-2 font-sans text-xs text-[var(--fg-muted)] opacity-50 hover:bg-transparent"
           >
-            <LogOut className="size-3" />
+            <LogOut className="size-3.5 text-[var(--fg-muted)]" />
             <span>Sign out</span>
           </Button>
         )}

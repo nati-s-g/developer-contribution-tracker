@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -105,49 +105,55 @@ export function DateRangePicker({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2 select-none">
-      {/* From Input (Native date input styled with tokens) */}
+      {/* From Input with Calendar Icon */}
       <div className="space-y-1">
         <label
           htmlFor="range-date-from"
-          className="text-[11px] font-medium text-[var(--fg-muted)]"
+          className="font-sans text-[11px] font-medium text-[var(--fg-muted)]"
         >
           From
         </label>
-        <Input
-          id="range-date-from"
-          type="date"
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-          max={formatDate(new Date())}
-          aria-invalid={!isValid}
-          className="h-8 px-2.5 text-xs [color-scheme:dark]"
-        />
+        <div className="relative flex items-center">
+          <Calendar className="pointer-events-none absolute left-2.5 size-3.5 text-[var(--fg-muted)]" />
+          <Input
+            id="range-date-from"
+            type="date"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+            max={formatDate(new Date())}
+            aria-invalid={!isValid}
+            className="h-8 pr-2.5 pl-8 font-sans text-xs [color-scheme:dark]"
+          />
+        </div>
       </div>
 
-      {/* To Input (Native date input styled with tokens) */}
+      {/* To Input with Calendar Icon */}
       <div className="space-y-1">
         <label
           htmlFor="range-date-to"
-          className="text-xs font-medium text-[var(--fg-muted)]"
+          className="font-sans text-[11px] font-medium text-[var(--fg-muted)]"
         >
           To
         </label>
-        <Input
-          id="range-date-to"
-          type="date"
-          value={to}
-          onChange={(e) => setTo(e.target.value)}
-          max={formatDate(new Date())}
-          aria-invalid={!isValid}
-          className="h-8 px-2.5 text-xs [color-scheme:dark]"
-        />
+        <div className="relative flex items-center">
+          <Calendar className="pointer-events-none absolute left-2.5 size-3.5 text-[var(--fg-muted)]" />
+          <Input
+            id="range-date-to"
+            type="date"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            max={formatDate(new Date())}
+            aria-invalid={!isValid}
+            className="h-8 pr-2.5 pl-8 font-sans text-xs [color-scheme:dark]"
+          />
+        </div>
       </div>
 
       {/* Validation Feedback */}
       {validationError && (
         <div
           role="alert"
-          className="flex items-center gap-1 text-[11px] text-[var(--removed)]"
+          className="flex items-center gap-1 font-sans text-[11px] text-[var(--removed)]"
         >
           <AlertCircle className="size-3.5 shrink-0" />
           <span>{validationError}</span>
@@ -155,7 +161,7 @@ export function DateRangePicker({
       )}
 
       {/* Presets: Last 30 days, Last 90 days, This year */}
-      <div className="space-y-1.5 pt-1">
+      <div className="space-y-1.5 pt-1 font-sans">
         <span className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
           Presets
         </span>
@@ -163,21 +169,21 @@ export function DateRangePicker({
           <button
             type="button"
             onClick={() => handlePresetDays(30)}
-            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
+            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
           >
             Last 30 days
           </button>
           <button
             type="button"
             onClick={() => handlePresetDays(90)}
-            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
+            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
           >
             Last 90 days
           </button>
           <button
             type="button"
             onClick={handleThisYear}
-            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
+            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
           >
             This year
           </button>

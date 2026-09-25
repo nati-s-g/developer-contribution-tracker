@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GitFork, Lock, Calendar, ExternalLink } from "lucide-react";
+import { GitBranch, Lock, Calendar, ExternalLink } from "lucide-react";
 import type { AnalysisContext } from "@/types/contributions";
 
 interface AnalysisContextCardProps {
@@ -14,8 +14,8 @@ export function AnalysisContextCard({ context }: AnalysisContextCardProps) {
     return (
       <div className="rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] p-3 text-xs">
         <div className="flex items-center gap-2 text-[var(--fg-muted)]">
-          <GitFork className="size-4 shrink-0 text-[var(--link)]" />
-          <span className="font-mono font-medium text-[var(--fg)]">
+          <GitBranch className="size-4 shrink-0 text-[var(--link)]" />
+          <span className="font-sans font-medium text-[var(--fg)]">
             No repository selected
           </span>
         </div>
@@ -28,13 +28,13 @@ export function AnalysisContextCard({ context }: AnalysisContextCardProps) {
   }
 
   return (
-    <div className="space-y-2 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] p-3 text-xs">
+    <div className="space-y-2 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] p-3 font-sans text-xs">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
         <div className="flex items-center gap-2">
           {repository.private ? (
             <Lock className="size-3.5 shrink-0 text-[var(--warning)]" />
           ) : (
-            <GitFork className="size-3.5 shrink-0 text-[var(--link)]" />
+            <GitBranch className="size-3.5 shrink-0 text-[var(--link)]" />
           )}
           <span className="text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
             Repository:
