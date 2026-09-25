@@ -87,12 +87,6 @@ export function ActivityCharts({
 
   return (
     <div className="space-y-6 pt-2">
-      {/* Chart Rationale Disclaimer */}
-      <div className="font-mono text-[11px] text-[var(--fg-muted)]">
-        Two restrained charts show chronological velocity and domain focus at a
-        glance without visual clutter.
-      </div>
-
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Chart A: Activity Per Week (Stacked) */}
         <div className="border border-[var(--border)] bg-[var(--bg-editor)] p-3">
@@ -191,9 +185,6 @@ export function ActivityCharts({
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
             <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
               Contributions by Category
-            </span>
-            <span className="font-mono text-[10px] text-[var(--fg-muted)]">
-              Deterministic classification
             </span>
           </div>
 

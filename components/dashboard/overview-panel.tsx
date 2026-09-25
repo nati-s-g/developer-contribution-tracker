@@ -44,10 +44,9 @@ export function OverviewPanel({
         <h3 className="text-sm font-semibold text-[var(--fg-strong)]">
           No Repository Selected
         </h3>
-        <p className="mt-1.5 max-w-md text-xs leading-relaxed text-[var(--fg-muted)]">
-          Select a GitHub repository and date range from the sidebar, then click{" "}
-          <strong className="text-[var(--fg)]">Load activity</strong> to
-          generate your verified contribution summary.
+        <p className="mt-1.5 text-xs text-[var(--fg-muted)]">
+          Select a repository and date range, then click{" "}
+          <strong className="text-[var(--fg)]">Load activity</strong>.
         </p>
       </div>
     );

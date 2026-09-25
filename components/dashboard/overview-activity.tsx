@@ -157,22 +157,14 @@ export async function OverviewActivity({
               </tr>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
                 <td className="px-2 text-[var(--fg-muted)]">
-                  <span>Reviews submitted</span>
-                  <span className="ml-1 text-[10px] text-[var(--fg-muted)] opacity-70">
-                    (submitted only)
-                  </span>
+                  Reviews submitted
                 </td>
                 <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
                   {summary.reviews}
                 </td>
               </tr>
               <tr className="h-6 border-b border-[var(--border)] transition-colors hover:bg-[var(--hover)]">
-                <td className="px-2 text-[var(--fg-muted)]">
-                  <span>Active days</span>
-                  <span className="ml-1 font-mono text-[10px] text-[var(--fg-muted)] opacity-70">
-                    ({timeZone})
-                  </span>
-                </td>
+                <td className="px-2 text-[var(--fg-muted)]">Active days</td>
                 <td className="px-2 text-right font-mono font-medium text-[var(--fg-strong)]">
                   {summary.activeDays}
                 </td>

@@ -333,3 +333,23 @@
 ### Open questions
 
 - None. The MVP pipeline is complete, hardened, and verified end-to-end.
+
+## UI Refinement — Text Simplification & Layout Standardization
+
+### What changed
+
+- **Welcome Page Text Simplification (`app/page.tsx`)**:
+  - Removed duplicate and marketing copy: eliminated the redundant developer vs reviewer cards, verbose feature bullet points, and multi-line architecture boxes that repeated summary counts.
+  - Retained fundamental content only: Application name, concise single-sentence summary, primary GitHub sign-in button, compact 4-item scope badges (Commits, Pull requests, Reviews, Issues), and single-line security footnote.
+  - Centered layout horizontally and vertically with standard developer IDE aesthetic.
+- **Empty States Streamlining (`components/dashboard/`)**:
+  - Simplified empty states across `OverviewPanel`, `TimelinePanel`, and `PullRequestsPanel` from verbose multi-sentence descriptions to a direct instruction: "Select a repository and date range, then click Load activity."
+- **Dashboard Table & Chart De-duplication (`components/dashboard/`)**:
+  - `OverviewActivity`: Removed duplicate parenthetical annotations `(submitted only)` from Reviews and `({timeZone})` from Active Days (timezone is already clearly indicated in the scope header).
+  - `ActivityCharts`: Removed meta rationale disclaimer text and redundant classification subtitle.
+- **Verification**:
+  - `npm run format`: passed.
+  - `npm run lint`: passed (0 errors, 0 warnings).
+  - `npm run typecheck`: passed (0 errors).
+  - `npm run test`: 11 unit tests passing.
+  - `npm run build`: optimized production build succeeded without warnings.
