@@ -36,18 +36,61 @@ export interface AuthConfig {
 }
 
 /**
+ * Resolves the application base URL dynamically:
+ * 1. Inspects incoming Request headers (x-forwarded-proto, x-forwarded-host)
+ * 2. Inspects request.url origin
+ * 3. Inspects NEXT_PUBLIC_APP_URL environment variable
+ * 4. Inspects VERCEL_PROJECT_PRODUCTION_URL or VERCEL_URL (injected by Vercel)
+ * 5. Falls back to "http://localhost:3000" for local development
+ */
+export function resolveAppUrl(request?: Request): string {
+  if (request) {
+    const proto =
+      request.headers.get("x-forwarded-proto") ||
+      (request.url.startsWith("https") ? "https" : "http");
+    const host =
+      request.headers.get("x-forwarded-host") || request.headers.get("host");
+
+    if (host) {
+      return `${proto}://${host}`.replace(/\/$/, "");
+    }
+
+    try {
+      return new URL(request.url).origin.replace(/\/$/, "");
+    } catch {
+      // Fall through to environment variables
+    }
+  }
+
+  if (process.env.NEXT_PUBLIC_APP_URL?.trim()) {
+    return process.env.NEXT_PUBLIC_APP_URL.trim().replace(/\/$/, "");
+  }
+
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.trim()}`.replace(
+      /\/$/,
+      ""
+    );
+  }
+
+  if (process.env.VERCEL_URL?.trim()) {
+    return `https://${process.env.VERCEL_URL.trim()}`.replace(/\/$/, "");
+  }
+
+  return "http://localhost:3000";
+}
+
+/**
  * Retrieves and validates required authentication environment variables.
  * Fails fast with clear descriptive error messages if required variables are missing.
  */
-export function getAuthConfig(): AuthConfig {
+export function getAuthConfig(request?: Request): AuthConfig {
   const clientId = process.env.GITHUB_CLIENT_ID?.trim();
   const clientSecret = process.env.GITHUB_CLIENT_SECRET?.trim();
   const sessionSecret = (
     process.env.SESSION_SECRET || process.env.AUTH_SECRET
   )?.trim();
-  const appUrl = (
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-  ).replace(/\/$/, "");
+  const appUrl = resolveAppUrl(request);
 
   if (!clientId) {
     throw new Error(
