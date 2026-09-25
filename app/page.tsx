@@ -60,9 +60,10 @@ export default async function WelcomePage(props: {
           <Image
             src="/logo-icon.png"
             alt="Dev. Logo"
-            width={18}
-            height={18}
-            className="size-[18px] shrink-0 rounded-[2px] object-contain"
+            width={20}
+            height={20}
+            priority
+            className="size-5 shrink-0 object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
           />
           <span className="font-sans font-semibold tracking-tight text-[var(--fg-strong)]">
             Developer Contribution Tracker
