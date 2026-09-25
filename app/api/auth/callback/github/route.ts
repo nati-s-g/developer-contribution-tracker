@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
 
   let config;
   try {
-    config = getAuthConfig();
+    config = getAuthConfig(request);
   } catch {
     return NextResponse.redirect(
       new URL("/?auth_error=config_missing", request.url)
