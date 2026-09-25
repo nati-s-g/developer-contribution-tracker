@@ -9,9 +9,9 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const config = getAuthConfig();
+    const config = getAuthConfig(request);
     const state = crypto.randomUUID();
 
     const cookieStore = await cookies();
