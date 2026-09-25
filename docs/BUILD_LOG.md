@@ -419,3 +419,13 @@
   - `npm run test`: 14 unit tests passing.
   - `npm run build`: optimized production build passed.
   - Local server verified: `http://localhost:3000/dashboard?repo=owner/repo&from=2026-01-01&to=2026-09-26&tz=UTC` returns HTTP 200 with zero future date errors.
+
+## Production Vercel Logo Replacement & Favicon Generation
+
+### What changed
+
+- Replaced default Next.js `app/favicon.ico` with high-resolution Dev. brand icon.
+- Generated `app/icon.png` (32x32) for Next.js App Router automatic metadata resolution.
+- Configured Apple touch icon and standard PNG icon arrays in `RootLayout` and `DashboardLayout`.
+- Refined `TitleBar` and `WelcomePage` header logo elements with `priority` preloading, `drop-shadow`, and 20px sizing.
+- Synchronized branch with `origin/main` to ensure Vercel production build deploys the updated logo and branding.
