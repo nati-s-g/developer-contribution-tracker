@@ -100,7 +100,7 @@ function renderReference(item: ActivityItem) {
       className="inline-flex shrink-0 items-center gap-1 font-mono text-xs text-[var(--link)] hover:underline"
     >
       <span>{label}</span>
-      <ExternalLink className="size-2.5 opacity-60" />
+      <ExternalLink className="size-3.5 text-[var(--fg-muted)] opacity-70" />
     </a>
   );
 }
@@ -174,7 +174,7 @@ export async function TimelineActivity({
               className="border border-[var(--border)] bg-[var(--bg-editor)]"
             >
               {/* Date Group Header */}
-              <div className="flex h-6 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-sidebar)] px-2 font-mono text-xs">
+              <div className="flex h-6 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-sidebar)] px-2 font-sans text-xs">
                 <span className="font-semibold text-[var(--fg-strong)]">
                   {group.date}
                 </span>

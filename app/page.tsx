@@ -91,14 +91,14 @@ export default async function WelcomePage(props: {
       </header>
 
       {/* Editor Tab Bar */}
-      <div className="flex h-[35px] min-h-[35px] border-b border-[var(--border)] bg-[var(--bg-editor)]">
-        <div className="flex h-[35px] items-center gap-2 border-t border-r border-[var(--border)] border-t-[var(--accent)] bg-[var(--bg-editor)] px-4 text-xs font-medium text-[var(--fg-strong)]">
+      <div className="flex h-[35px] min-h-[35px] border-b border-[var(--border)] bg-[var(--bg-editor)] font-sans">
+        <div className="flex h-[35px] items-center gap-2 border-t-2 border-r border-[var(--border)] border-t-[var(--accent)] bg-[var(--bg-editor)] px-4 text-xs font-normal text-[var(--fg-strong)]">
           <span>Welcome</span>
         </div>
       </div>
 
       {/* Centered Document Content */}
-      <main className="flex flex-1 flex-col items-center justify-center p-6">
+      <main className="flex flex-1 flex-col items-center justify-center p-6 font-sans">
         <div className="w-full max-w-md space-y-6 text-center select-text">
           {/* Heading and Short Description */}
           <div className="space-y-2">
@@ -126,11 +126,11 @@ export default async function WelcomePage(props: {
           <div className="flex flex-col items-center justify-center gap-2 pt-1">
             {session ? (
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] px-3 py-1.5 font-mono text-xs text-[var(--fg)]">
+                <div className="inline-flex items-center gap-2 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] px-3 py-1.5 text-xs text-[var(--fg)]">
                   <span className="size-2 rounded-full bg-[var(--open)]" />
                   <span>
                     Signed in as{" "}
-                    <strong className="text-[var(--fg-strong)]">
+                    <strong className="font-mono text-[var(--fg-strong)]">
                       @{session.user.login}
                     </strong>
                   </span>
@@ -157,7 +157,7 @@ export default async function WelcomePage(props: {
           </div>
 
           {/* Fundamental Scope */}
-          <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-xs text-[var(--fg-muted)]">
+          <div className="flex flex-wrap items-center justify-center gap-2 font-sans text-xs text-[var(--fg-muted)]">
             <span className="rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] px-2.5 py-1">
               Commits
             </span>
@@ -173,14 +173,14 @@ export default async function WelcomePage(props: {
           </div>
 
           {/* Fundamental Security Note */}
-          <div className="font-mono text-[11px] text-[var(--fg-muted)]">
+          <div className="font-sans text-[11px] text-[var(--fg-muted)]">
             Encrypted session · Server-only tokens · No database
           </div>
         </div>
       </main>
 
       {/* Status Bar */}
-      <footer className="flex h-[24px] min-h-[24px] w-full items-center justify-between bg-[var(--bg-status)] px-3 font-mono text-xs text-white select-none">
+      <footer className="flex h-[24px] min-h-[24px] w-full items-center justify-between bg-[var(--bg-status)] px-3 font-sans text-xs text-white select-none">
         <span>Internship Contribution Tracker</span>
         <span>
           {session ? `Signed in: @${session.user.login}` : "Unauthenticated"}

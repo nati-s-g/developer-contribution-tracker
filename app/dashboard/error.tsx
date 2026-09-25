@@ -32,8 +32,8 @@ export default function DashboardError({ error, reset }: DashboardErrorProps) {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-editor)] p-6 text-[var(--fg)]">
-      <div className="w-full max-w-lg space-y-4 border border-[var(--border)] bg-[var(--bg-sidebar)] p-6">
-        <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3 font-mono text-xs font-semibold tracking-wider text-[var(--removed)] uppercase">
+      <div className="w-full max-w-lg space-y-4 border border-[var(--border)] bg-[var(--bg-sidebar)] p-6 font-sans">
+        <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3 font-sans text-xs font-semibold tracking-wider text-[var(--removed)] uppercase">
           <AlertCircle className="size-4 shrink-0" />
           <span>
             {isUnauthorized
@@ -47,7 +47,7 @@ export default function DashboardError({ error, reset }: DashboardErrorProps) {
         </div>
 
         <div className="space-y-2 text-xs">
-          <p className="font-mono text-[var(--fg-strong)]">{message}</p>
+          <p className="font-sans text-[var(--fg-strong)]">{message}</p>
 
           {isUnauthorized && (
             <p className="text-[var(--fg-muted)]">

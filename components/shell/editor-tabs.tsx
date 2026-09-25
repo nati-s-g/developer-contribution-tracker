@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export interface EditorTabItem {
   id: string;
   label: string;
+  icon?: React.ReactNode;
   content: React.ReactNode;
 }
 
@@ -32,19 +33,27 @@ export function EditorTabs({ tabs, defaultTab, className }: EditorTabsProps) {
           setActiveTab(val);
         }
       }}
-      className={cn("flex h-full w-full flex-col overflow-hidden", className)}
+      className={cn(
+        "flex h-full w-full flex-col overflow-hidden font-sans",
+        className
+      )}
     >
       {/* Tab bar header */}
       <TabsList
         aria-label="Editor Panels"
-        className="h-[35px] min-h-[35px] w-full [scrollbar-width:none] justify-start overflow-x-auto border-b border-[var(--border)] bg-[var(--bg-editor)] p-0 [&::-webkit-scrollbar]:hidden"
+        className="h-[35px] min-h-[35px] w-full [scrollbar-width:none] justify-start overflow-x-auto border-b border-[var(--border)] bg-[var(--bg-editor)] p-0 font-sans [&::-webkit-scrollbar]:hidden"
       >
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.id}
             value={tab.id}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1.5"
           >
+            {tab.icon && (
+              <span className="shrink-0 text-[var(--fg-muted)]">
+                {tab.icon}
+              </span>
+            )}
             <span>{tab.label}</span>
           </TabsTrigger>
         ))}

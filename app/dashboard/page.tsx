@@ -1,4 +1,5 @@
 import * as React from "react";
+import { LayoutGrid, History, GitPullRequest } from "lucide-react";
 import { EditorTabs, type EditorTabItem } from "@/components/shell";
 import {
   OverviewPanel,
@@ -63,6 +64,7 @@ export default async function DashboardPage({
     {
       id: "overview",
       label: "Overview",
+      icon: <LayoutGrid className="size-3.5" />,
       content: (
         <OverviewPanel
           isEmpty={!parsed.hasSelection && !errorMessage}
@@ -78,6 +80,7 @@ export default async function DashboardPage({
     {
       id: "timeline",
       label: "Timeline",
+      icon: <History className="size-3.5" />,
       content: (
         <TimelinePanel
           isEmpty={!parsed.hasSelection && !errorMessage}
@@ -93,6 +96,7 @@ export default async function DashboardPage({
     {
       id: "pull-requests",
       label: "Pull Requests",
+      icon: <GitPullRequest className="size-3.5" />,
       content: (
         <PullRequestsPanel
           isEmpty={!parsed.hasSelection && !errorMessage}

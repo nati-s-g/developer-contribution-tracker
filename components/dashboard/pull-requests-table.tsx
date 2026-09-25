@@ -148,7 +148,7 @@ export function PullRequestsTable({
   return (
     <div className="space-y-4 select-text">
       {/* Summary Line */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-2 font-mono text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-2 font-sans text-xs">
         <div className="flex items-center gap-4 text-[var(--fg)]">
           <span>
             Pull requests:{" "}
@@ -164,17 +164,14 @@ export function PullRequestsTable({
           <span className="text-[var(--border)]">|</span>
           <span>
             Total changes:{" "}
-            <span className="text-[var(--added)]">
+            <span className="font-mono text-[var(--added)]">
               +{totalAdditions.toLocaleString()}
             </span>{" "}
             /{" "}
-            <span className="text-[var(--removed)]">
+            <span className="font-mono text-[var(--removed)]">
               -{totalDeletions.toLocaleString()}
             </span>
           </span>
-        </div>
-        <div className="text-[11px] text-[var(--fg-muted)]">
-          Click column headers to sort
         </div>
       </div>
 
@@ -182,7 +179,7 @@ export function PullRequestsTable({
       <div className="overflow-x-auto border border-[var(--border)] bg-[var(--bg-editor)]">
         <table className="w-full text-left font-sans text-xs">
           <thead>
-            <tr className="h-6 border-b border-[var(--border)] bg-[var(--bg-sidebar)] font-mono text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
+            <tr className="h-6 border-b border-[var(--border)] bg-[var(--bg-sidebar)] font-sans text-[11px] tracking-wider text-[var(--fg-muted)] uppercase">
               <th
                 onClick={() => handleSort("number")}
                 className="group w-16 cursor-pointer px-2 text-right select-none hover:text-[var(--fg-strong)]"
@@ -227,7 +224,7 @@ export function PullRequestsTable({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--border)] font-mono text-xs">
+          <tbody className="divide-y divide-[var(--border)] font-sans text-xs">
             {sortedPRs.map((pr) => {
               const stateDotClass = pr.merged
                 ? "bg-[var(--merged)]"
@@ -252,10 +249,10 @@ export function PullRequestsTable({
                       href={pr.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-[var(--link)] hover:underline"
+                      className="inline-flex items-center gap-1 font-mono text-[var(--link)] hover:underline"
                     >
                       <span>#{pr.number}</span>
-                      <ExternalLink className="size-2.5 opacity-60" />
+                      <ExternalLink className="size-3.5 text-[var(--fg-muted)] opacity-70" />
                     </a>
                   </td>
 
@@ -290,7 +287,7 @@ export function PullRequestsTable({
                   </td>
 
                   {/* Changes (+add / -del) */}
-                  <td className="px-2 text-right text-[11px]">
+                  <td className="px-2 text-right font-mono text-[11px]">
                     <span className="text-[var(--added)]">
                       +{pr.additions.toLocaleString()}
                     </span>
@@ -308,7 +305,7 @@ export function PullRequestsTable({
                   {/* Category */}
                   <td className="px-2">
                     <span
-                      className={`inline-block rounded-[2px] border px-1 font-mono text-[10px] ${getCategoryColor(
+                      className={`inline-block rounded-[2px] border px-1 font-sans text-[10px] ${getCategoryColor(
                         pr.category
                       )}`}
                     >
