@@ -120,7 +120,7 @@ export function DateRangePicker({
           onChange={(e) => setFrom(e.target.value)}
           max={formatDate(new Date())}
           aria-invalid={!isValid}
-          className="h-6 [color-scheme:dark]"
+          className="h-8 px-2.5 text-xs [color-scheme:dark]"
         />
       </div>
 
@@ -128,7 +128,7 @@ export function DateRangePicker({
       <div className="space-y-1">
         <label
           htmlFor="range-date-to"
-          className="text-[11px] font-medium text-[var(--fg-muted)]"
+          className="text-xs font-medium text-[var(--fg-muted)]"
         >
           To
         </label>
@@ -139,7 +139,7 @@ export function DateRangePicker({
           onChange={(e) => setTo(e.target.value)}
           max={formatDate(new Date())}
           aria-invalid={!isValid}
-          className="h-6 [color-scheme:dark]"
+          className="h-8 px-2.5 text-xs [color-scheme:dark]"
         />
       </div>
 
@@ -147,37 +147,37 @@ export function DateRangePicker({
       {validationError && (
         <div
           role="alert"
-          className="flex items-center gap-1 text-[10px] text-[var(--removed)]"
+          className="flex items-center gap-1 text-[11px] text-[var(--removed)]"
         >
-          <AlertCircle className="size-3 shrink-0" />
+          <AlertCircle className="size-3.5 shrink-0" />
           <span>{validationError}</span>
         </div>
       )}
 
       {/* Presets: Last 30 days, Last 90 days, This year */}
-      <div className="space-y-1 pt-0.5">
-        <span className="text-[10px] tracking-wider text-[var(--fg-muted)] uppercase">
+      <div className="space-y-1.5 pt-1">
+        <span className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
           Presets
         </span>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           <button
             type="button"
             onClick={() => handlePresetDays(30)}
-            className="h-5 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2 font-mono text-[10px] text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
+            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
           >
             Last 30 days
           </button>
           <button
             type="button"
             onClick={() => handlePresetDays(90)}
-            className="h-5 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2 font-mono text-[10px] text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
+            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
           >
             Last 90 days
           </button>
           <button
             type="button"
             onClick={handleThisYear}
-            className="h-5 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2 font-mono text-[10px] text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
+            className="h-6 rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-[11px] text-[var(--fg-muted)] transition-colors hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
           >
             This year
           </button>
@@ -189,7 +189,7 @@ export function DateRangePicker({
         <Button
           type="submit"
           disabled={!isValid || !hasRepository}
-          className="h-6 w-full cursor-pointer rounded-[2px] bg-[var(--accent)] px-2 text-xs font-medium text-white transition-opacity hover:bg-[var(--accent)]/90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="h-8 w-full cursor-pointer rounded-[2px] bg-[var(--accent)] px-3 text-xs font-semibold text-white transition-opacity hover:bg-[var(--accent)]/90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Load activity
         </Button>

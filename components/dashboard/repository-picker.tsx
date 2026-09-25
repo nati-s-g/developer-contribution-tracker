@@ -62,7 +62,7 @@ export function RepositoryPicker({
                   : "Select repository"
               }
               className={cn(
-                "flex h-6 w-full items-center justify-between rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2 font-mono text-xs text-[var(--fg)] transition-colors select-none",
+                "flex h-8 w-full items-center justify-between rounded-[2px] border border-[var(--border)] bg-[var(--bg-editor)] px-2.5 font-mono text-xs text-[var(--fg)] transition-colors select-none",
                 "hover:border-[var(--fg-muted)] hover:bg-[var(--hover)] focus-visible:outline-1 focus-visible:outline-[var(--focus)]",
                 open && "border-[var(--focus)]"
               )}

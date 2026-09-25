@@ -56,9 +56,11 @@ export function EditorTabs({ tabs, defaultTab, className }: EditorTabsProps) {
           <TabsContent
             key={tab.id}
             value={tab.id}
-            className="h-full w-full p-4 md:p-6"
+            className="h-full w-full p-4 md:p-8"
           >
-            <div className="w-full max-w-5xl text-left">{tab.content}</div>
+            <div className="mx-auto w-full max-w-5xl text-left">
+              {tab.content}
+            </div>
           </TabsContent>
         ))}
       </div>

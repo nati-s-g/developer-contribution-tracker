@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { RepositorySummary } from "@/types/contributions";
+import { GitPullRequest } from "lucide-react";
 import {
   PullRequestsActivity,
   PullRequestsActivitySkeleton,
@@ -38,8 +39,16 @@ export function PullRequestsPanel({
 
   if (isEmpty || !repository || !from || !to) {
     return (
-      <div className="text-xs text-[var(--fg-muted)]">
-        Select a repository and date range, then Load activity
+      <div className="flex min-h-[380px] flex-col items-center justify-center rounded-[2px] border border-dashed border-[var(--border)] p-8 text-center select-none">
+        <GitPullRequest className="mb-3 size-8 text-[var(--link)] opacity-80" />
+        <h3 className="text-sm font-semibold text-[var(--fg-strong)]">
+          No Repository Selected
+        </h3>
+        <p className="mt-1.5 max-w-md text-xs leading-relaxed text-[var(--fg-muted)]">
+          Select a GitHub repository and date range from the sidebar, then click{" "}
+          <strong className="text-[var(--fg)]">Load activity</strong> to view
+          the pull request breakdown and code diff statistics.
+        </p>
       </div>
     );
   }

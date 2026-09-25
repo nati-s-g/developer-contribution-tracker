@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { Terminal, ArrowRight, AlertCircle, LogOut } from "lucide-react";
+import {
+  Terminal,
+  ArrowRight,
+  AlertCircle,
+  LogOut,
+  CheckCircle2,
+  ShieldCheck,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/auth";
 
@@ -54,15 +61,15 @@ export default async function WelcomePage(props: {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg-editor)] text-[var(--fg)]">
       {/* Top Title Bar */}
-      <header className="flex h-[35px] min-h-[35px] w-full items-center justify-between border-b border-[var(--border)] bg-[var(--bg-titlebar)] px-3 text-xs select-none">
-        <div className="flex items-center gap-2">
-          <Terminal className="size-3.5 text-[var(--link)]" />
-          <span className="font-medium text-[var(--fg-strong)]">
+      <header className="flex h-[38px] min-h-[38px] w-full items-center justify-between border-b border-[var(--border)] bg-[var(--bg-titlebar)] px-4 text-xs select-none">
+        <div className="flex items-center gap-2.5">
+          <Terminal className="size-4 text-[var(--link)]" />
+          <span className="font-semibold tracking-tight text-[var(--fg-strong)]">
             Internship Contribution Tracker
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 font-mono text-[11px] text-[var(--fg-muted)]">
+          <div className="flex items-center gap-1.5 font-mono text-xs text-[var(--fg-muted)]">
             <span>github:</span>
             <span className="text-[var(--fg-strong)]">
               {session ? `@${session.user.login}` : "unsigned"}
@@ -80,7 +87,7 @@ export default async function WelcomePage(props: {
                 variant="ghost"
                 size="xs"
                 aria-label="Sign out"
-                className="h-6 cursor-pointer gap-1 rounded-[2px] px-2 text-xs text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)] focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
+                className="h-6 cursor-pointer gap-1.5 rounded-[2px] px-2 text-xs text-[var(--fg-muted)] hover:bg-[var(--hover)] hover:text-[var(--fg-strong)]"
               >
                 <LogOut className="size-3" />
                 <span>Sign out</span>
@@ -93,22 +100,30 @@ export default async function WelcomePage(props: {
       {/* Editor Tab Bar */}
       <div className="flex h-[35px] min-h-[35px] border-b border-[var(--border)] bg-[var(--bg-editor)]">
         <div className="flex h-[35px] items-center gap-2 border-t border-r border-[var(--border)] border-t-[var(--accent)] bg-[var(--bg-editor)] px-4 text-xs font-medium text-[var(--fg-strong)]">
-          <span>Welcome</span>
+          <span>Welcome.md</span>
         </div>
       </div>
 
-      {/* Welcome Document Content */}
-      <main className="flex-1 p-6 md:p-10">
-        <div className="max-w-xl space-y-6">
-          {/* Header block */}
-          <div className="space-y-1">
-            <h1 className="text-xl font-normal tracking-tight text-[var(--fg-strong)]">
+      {/* Centered Document Content */}
+      <main className="flex flex-1 flex-col items-center justify-center p-6 md:p-12">
+        <div className="w-full max-w-3xl space-y-8 text-center select-text">
+          {/* Pre-title Tag */}
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] px-3 py-1 font-mono text-xs font-medium tracking-wide text-[var(--link)]">
+              <Terminal className="size-3.5" />
+              <span>DEVELOPER CONTRIBUTION REPORT GENERATOR</span>
+            </span>
+          </div>
+
+          {/* Heading and Subtitle */}
+          <div className="space-y-3">
+            <h1 className="text-3xl font-semibold tracking-tight text-[var(--fg-strong)] md:text-4xl">
               Internship Contribution Tracker
             </h1>
-            <p className="text-xs text-[var(--fg-muted)]">
-              Developer Contribution Report Generator: Turn your repository
-              activity over a chosen date range into a clear contribution
-              summary.
+            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[var(--fg-muted)] md:text-base">
+              Connect your GitHub account to turn repository activity over any
+              chosen date range into an objective, verified contribution summary
+              across commits, pull requests, code reviews, and issues.
             </p>
           </div>
 
@@ -116,75 +131,149 @@ export default async function WelcomePage(props: {
           {errorMessage && (
             <div
               role="alert"
-              className="flex items-center gap-2 border border-[var(--removed)] bg-[var(--bg-sidebar)] px-3 py-2 text-xs text-[var(--removed)]"
+              className="mx-auto flex max-w-lg items-center gap-2.5 rounded-[2px] border border-[var(--removed)] bg-[var(--bg-sidebar)] p-3 text-left text-xs text-[var(--removed)]"
             >
               <AlertCircle className="size-4 shrink-0" />
               <span>{errorMessage}</span>
             </div>
           )}
 
-          {/* Start Section */}
-          <div className="space-y-3">
-            <div className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
-              Start
-            </div>
-
-            <div className="space-y-3">
-              {session ? (
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 font-mono text-xs text-[var(--fg)]">
-                    <span className="size-2 rounded-full bg-[var(--open)]" />
-                    <span>Signed in as @{session.user.login}</span>
-                  </div>
-                  <div>
-                    <Link
-                      href="/dashboard"
-                      className="inline-flex h-7 items-center gap-1.5 rounded-[2px] bg-[var(--accent)] px-3 text-xs font-medium text-white hover:bg-[var(--accent)]/90 focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
-                    >
-                      <span>Open dashboard</span>
-                      <ArrowRight className="size-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <a
-                    href="/api/auth/github"
-                    className="inline-flex h-7 items-center rounded-[2px] bg-[var(--accent)] px-3 text-xs font-medium text-white hover:bg-[var(--accent)]/90 focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
-                  >
-                    <GithubIcon className="mr-1.5 size-3.5" />
-                    Sign in with GitHub
-                  </a>
-                  <span className="text-[11px] text-[var(--fg-muted)]">
-                    (Requires GitHub authorization)
+          {/* Primary Action Button (Centered) */}
+          <div className="flex flex-col items-center justify-center gap-3">
+            {session ? (
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] px-3 py-1.5 font-mono text-xs text-[var(--fg)]">
+                  <span className="size-2 rounded-full bg-[var(--open)]" />
+                  <span>
+                    Authenticated as{" "}
+                    <strong className="text-[var(--fg-strong)]">
+                      @{session.user.login}
+                    </strong>
                   </span>
                 </div>
-              )}
+                <div>
+                  <Link
+                    href="/dashboard"
+                    className="inline-flex h-9 items-center gap-2 rounded-[2px] bg-[var(--accent)] px-5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[var(--accent)]/90"
+                  >
+                    <span>Open Dashboard</span>
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <a
+                  href="/api/auth/github"
+                  className="inline-flex h-10 items-center gap-2.5 rounded-[2px] bg-[var(--accent)] px-6 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[var(--accent)]/90"
+                >
+                  <GithubIcon className="size-4" />
+                  <span>Sign in with GitHub</span>
+                </a>
+                <div className="font-mono text-xs text-[var(--fg-muted)]">
+                  Stateless OAuth · Encrypted HttpOnly Session · No Database
+                  Required
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Two Standard Perspectives: For Developers and For Reviewers */}
+          <div className="grid grid-cols-1 gap-4 pt-2 text-left md:grid-cols-2">
+            {/* For Developers Card */}
+            <div className="space-y-3 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] p-5">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs font-semibold tracking-wider text-[var(--open)] uppercase">
+                  [ For Developers ]
+                </span>
+                <span className="font-mono text-[11px] text-[var(--fg-muted)]">
+                  Proof of Work
+                </span>
+              </div>
+              <h3 className="text-sm font-semibold text-[var(--fg-strong)]">
+                Verifiable Contribution Records
+              </h3>
+              <p className="text-xs leading-relaxed text-[var(--fg-muted)]">
+                Compile actual, verified accomplishments for internship exit
+                reviews, standup updates, promotion dossiers, or CV
+                documentation without guesswork.
+              </p>
+              <ul className="space-y-1.5 pt-1 font-mono text-xs text-[var(--fg-muted)]">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[var(--open)]" />
+                  <span>Conventional Commit categorization</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[var(--open)]" />
+                  <span>Active days in your local timezone</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[var(--open)]" />
+                  <span>Accurate PR code changes (+/- diff)</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* For Reviewers Card */}
+            <div className="space-y-3 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] p-5">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs font-semibold tracking-wider text-[var(--link)] uppercase">
+                  [ For Reviewers ]
+                </span>
+                <span className="font-mono text-[11px] text-[var(--fg-muted)]">
+                  Engineering Standards
+                </span>
+              </div>
+              <h3 className="text-sm font-semibold text-[var(--fg-strong)]">
+                Objective Technical Metrics
+              </h3>
+              <p className="text-xs leading-relaxed text-[var(--fg-muted)]">
+                Evaluate developer velocity, code review engagement, and domain
+                focus directly from source control without tedious git log
+                manual excavation.
+              </p>
+              <ul className="space-y-1.5 pt-1 font-mono text-xs text-[var(--fg-muted)]">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[var(--link)]" />
+                  <span>Queried directly via GitHub REST API</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[var(--link)]" />
+                  <span>Submitted reviews only (no comment noise)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[var(--link)]" />
+                  <span>Weekly velocity stacked by kind</span>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* Architecture / Pipeline info */}
-          <div className="space-y-2 pt-2">
-            <div className="text-[11px] font-semibold tracking-wider text-[var(--fg-muted)] uppercase">
-              Security & Pipeline
+          {/* Security & Pipeline Monospace Architecture Bar */}
+          <div className="space-y-1.5 rounded-[2px] border border-[var(--border)] bg-[var(--bg-sidebar)] p-4 text-left font-mono text-xs text-[var(--fg-muted)]">
+            <div className="flex items-center justify-between text-xs text-[var(--fg)]">
+              <span className="flex items-center gap-1.5 font-semibold text-[var(--warning)] uppercase">
+                <ShieldCheck className="size-3.5" />
+                <span>Security & Privacy Architecture</span>
+              </span>
+              <span className="text-[11px] text-[var(--fg-muted)]">
+                100% Server-Only
+              </span>
             </div>
-            <div className="space-y-1.5 border border-[var(--border)] bg-[var(--bg-sidebar)] p-3 font-mono text-xs text-[var(--fg-muted)]">
-              <div className="text-[var(--fg)]">
-                OAuth Code Flow → Encrypted HttpOnly Cookie → Server Token
-                Access
-              </div>
-              <div className="text-[11px] text-[var(--fg-muted)]">
-                Tokens are encrypted server-side and never exposed to the
-                browser. No third-party database is required for session
-                storage.
-              </div>
+            <div className="text-xs text-[var(--fg)]">
+              OAuth Code Flow → AES-256-GCM Encrypted Cookie → Direct GitHub
+              REST
+            </div>
+            <div className="text-[11px] text-[var(--fg-muted)]">
+              Tokens exist strictly in backend memory and encrypted cookies.
+              Zero credentials or repository data are stored in a database.
             </div>
           </div>
         </div>
       </main>
 
       {/* Status Bar */}
-      <footer className="flex h-[22px] min-h-[22px] w-full items-center justify-between bg-[var(--bg-status)] px-2 font-mono text-[11px] text-white select-none">
+      <footer className="flex h-[24px] min-h-[24px] w-full items-center justify-between bg-[var(--bg-status)] px-3 font-mono text-xs text-white select-none">
         <span>Internship Contribution Tracker</span>
         <span>
           {session ? `Signed in: @${session.user.login}` : "Unauthenticated"}
