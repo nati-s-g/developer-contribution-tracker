@@ -39,12 +39,14 @@ export function DateRangePicker({
   const [to, setTo] = React.useState(initialTo || defaultTo);
 
   const getTimeZone = React.useCallback((): string => {
-    if (initialTimeZone) return initialTimeZone;
+    if (initialTimeZone && initialTimeZone !== "UTC") return initialTimeZone;
     try {
-      return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+      const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (detected) return detected;
     } catch {
-      return "UTC";
+      // fallback to initial or UTC
     }
+    return initialTimeZone || "UTC";
   }, [initialTimeZone]);
 
   // Validation
@@ -60,8 +62,11 @@ export function DateRangePicker({
       return "End date cannot be earlier than start date.";
     }
 
-    const todayStr = formatDate(new Date());
-    if (to > todayStr) {
+    const localToday = formatDate(new Date());
+    const utcToday = new Date().toISOString().split("T")[0];
+    const maxAllowedToday = localToday > utcToday ? localToday : utcToday;
+
+    if (to > maxAllowedToday) {
       return "End date cannot be in the future.";
     }
 
@@ -120,7 +125,11 @@ export function DateRangePicker({
             type="date"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            max={formatDate(new Date())}
+            max={
+              formatDate(new Date()) > new Date().toISOString().split("T")[0]
+                ? formatDate(new Date())
+                : new Date().toISOString().split("T")[0]
+            }
             aria-invalid={!isValid}
             className="h-8 pr-2.5 pl-8 font-sans text-xs [color-scheme:dark]"
           />
@@ -142,7 +151,11 @@ export function DateRangePicker({
             type="date"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            max={formatDate(new Date())}
+            max={
+              formatDate(new Date()) > new Date().toISOString().split("T")[0]
+                ? formatDate(new Date())
+                : new Date().toISOString().split("T")[0]
+            }
             aria-invalid={!isValid}
             className="h-8 pr-2.5 pl-8 font-sans text-xs [color-scheme:dark]"
           />

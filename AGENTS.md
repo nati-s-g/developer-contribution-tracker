@@ -1,4 +1,4 @@
-# Internship Contribution Tracker — Project Rules
+# Developer Contribution Tracker — Project Rules
 
 Always-on context for AI coding agents. It is deliberately short; the detailed instructions live in the step prompts. If this file and the repository disagree, inspect the repository, explain the difference, and do not blindly overwrite existing code.
 
@@ -10,7 +10,7 @@ Core question it answers: "What did I actually contribute to this project during
 
 Pipeline: GitHub sign-in → pick repository → pick date range → fetch activity → process and categorize → show summary.
 
-Working name: Internship Contribution Tracker. Product concept: Developer Contribution Report Generator. Internships are the first use case, not the limit: users may be interns, employees, freelancers, students, or open-source contributors. Keep code, types and copy neutral ("contribution", "developer", "period"). The word "internship" appears only in the app-name constant.
+Working name: Developer Contribution Tracker. Product concept: Developer Contribution Report Generator. Internships, freelance work, full-time engineering, and open source are all supported: users may be interns, employees, freelancers, students, or open-source contributors. Keep code, types and copy neutral ("contribution", "developer", "period").
 
 ## 2. MVP scope
 

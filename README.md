@@ -1,4 +1,4 @@
-# Internship Contribution Tracker
+# Developer Contribution Tracker
 
 > **Developer Contribution Report Generator**
 > Connect to your GitHub account and turn your actual repository activity over any chosen date range into a clear, verified contribution summary.
@@ -7,7 +7,7 @@
 
 ## What It Does
 
-Internship Contribution Tracker answers the core question: **"What did I actually contribute to this project during this period?"**
+Developer Contribution Tracker answers the core question: **"What did I actually contribute to this project during this period?"**
 
 Whether preparing for an internship exit review, updating a CV, compiling a contract report, or documenting open-source contributions, this tool provides a verifiable record of developer output:
 
@@ -70,7 +70,7 @@ The application enforces a strict unidirectional four-layer architecture with a 
 
 1. Go to your GitHub account: **Settings** → **Developer settings** → **OAuth Apps** → **New OAuth App**.
 2. Configure the following fields:
-   - **Application name**: `Internship Contribution Tracker (Dev)`
+   - **Application name**: `Developer Contribution Tracker (Dev)`
    - **Homepage URL**: `http://localhost:3000`
    - **Authorization callback URL**: `http://localhost:3000/api/auth/callback/github`
 3. Click **Register application**.

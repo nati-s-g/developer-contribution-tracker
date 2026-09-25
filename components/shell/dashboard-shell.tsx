@@ -38,7 +38,20 @@ export function DashboardShell({
   const selectedRepo = searchParams?.get("repo") || null;
   const from = searchParams?.get("from") || undefined;
   const to = searchParams?.get("to") || undefined;
-  const timeZone = searchParams?.get("tz") || "UTC";
+
+  const clientTz = React.useSyncExternalStore(
+    () => () => {},
+    () => {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+      } catch {
+        return "UTC";
+      }
+    },
+    () => "UTC"
+  );
+
+  const timeZone = searchParams?.get("tz") || clientTz;
 
   const formattedRange = from && to ? `${from} → ${to}` : "--";
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Terminal, ArrowRight, AlertCircle, LogOut } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, AlertCircle, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/auth";
 
@@ -56,9 +57,15 @@ export default async function WelcomePage(props: {
       {/* Top Title Bar */}
       <header className="flex h-[38px] min-h-[38px] w-full items-center justify-between border-b border-[var(--border)] bg-[var(--bg-titlebar)] px-4 text-xs select-none">
         <div className="flex items-center gap-2">
-          <Terminal className="size-4 text-[var(--link)]" />
-          <span className="font-medium text-[var(--fg-strong)]">
-            Internship Contribution Tracker
+          <Image
+            src="/logo-icon.png"
+            alt="Dev. Logo"
+            width={18}
+            height={18}
+            className="size-[18px] shrink-0 rounded-[2px] object-contain"
+          />
+          <span className="font-sans font-semibold tracking-tight text-[var(--fg-strong)]">
+            Developer Contribution Tracker
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -100,10 +107,20 @@ export default async function WelcomePage(props: {
       {/* Centered Document Content */}
       <main className="flex flex-1 flex-col items-center justify-center p-6 font-sans">
         <div className="w-full max-w-md space-y-6 text-center select-text">
-          {/* Heading and Short Description */}
-          <div className="space-y-2">
+          {/* Brand Logo, Heading and Short Description */}
+          <div className="flex flex-col items-center space-y-3">
+            <div className="flex items-center justify-center py-2">
+              <Image
+                src="/logo.png"
+                alt="Dev. Logo"
+                width={160}
+                height={62}
+                className="h-12 w-auto object-contain"
+                priority
+              />
+            </div>
             <h1 className="text-2xl font-semibold tracking-tight text-[var(--fg-strong)]">
-              Internship Contribution Tracker
+              Developer Contribution Tracker
             </h1>
             <p className="text-sm text-[var(--fg-muted)]">
               Generate a verified contribution summary from your GitHub
@@ -181,7 +198,7 @@ export default async function WelcomePage(props: {
 
       {/* Status Bar */}
       <footer className="flex h-[24px] min-h-[24px] w-full items-center justify-between bg-[var(--bg-status)] px-3 font-sans text-xs text-white select-none">
-        <span>Internship Contribution Tracker</span>
+        <span>Developer Contribution Tracker</span>
         <span>
           {session ? `Signed in: @${session.user.login}` : "Unauthenticated"}
         </span>

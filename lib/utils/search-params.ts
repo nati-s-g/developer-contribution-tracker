@@ -30,6 +30,15 @@ export function getTodayInTimeZone(timeZone: string): string {
 }
 
 /**
+ * Returns the latest calendar date currently reached anywhere on Earth (UTC+14).
+ * This ensures that when a user in an eastern timezone submits today's local date
+ * before UTC has reached midnight, or if tz defaults to UTC, it is never falsely rejected as a future date.
+ */
+export function getLatestEarthDate(): string {
+  return getTodayInTimeZone("Pacific/Kiritimati");
+}
+
+/**
  * Zod Schema for Dashboard Query Parameters
  */
 export const dashboardParamsSchema = z
@@ -99,7 +108,11 @@ export const dashboardParamsSchema = z
         }
 
         const todayInTz = getTodayInTimeZone(timeZone);
-        if (data.to > todayInTz) {
+        const latestEarthDate = getLatestEarthDate();
+        const maxAllowedDate =
+          todayInTz > latestEarthDate ? todayInTz : latestEarthDate;
+
+        if (data.to > maxAllowedDate) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             path: ["to"],

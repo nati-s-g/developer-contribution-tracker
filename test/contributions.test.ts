@@ -7,6 +7,11 @@ import {
   getWeekMonday,
   buildWeeklyActivity,
 } from "@/lib/contributions";
+import {
+  parseDashboardParams,
+  getTodayInTimeZone,
+  getLatestEarthDate,
+} from "@/lib/utils/search-params";
 import type {
   CommitItem,
   PullRequestSummary,
@@ -295,5 +300,49 @@ describe("Charts: getWeekMonday & buildWeeklyActivity", () => {
     const may18Eat = weeksEat.find((w) => w.week === "2026-05-18");
     expect(may11Eat?.commit).toBe(0);
     expect(may18Eat?.commit).toBe(1);
+  });
+});
+
+describe("parseDashboardParams and timezone validation", () => {
+  it("computes latest calendar date on Earth and permits today in local timezone", () => {
+    const latestDate = getLatestEarthDate();
+    expect(latestDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+
+    // End date set to today in local/earth time must be accepted even if tz is UTC
+    const parsed = parseDashboardParams({
+      repo: "owner/repo",
+      from: "2026-01-01",
+      to: latestDate,
+      tz: "UTC",
+    });
+
+    expect(parsed.isValid).toBe(true);
+    expect(parsed.errors.to).toBeUndefined();
+  });
+
+  it("rejects genuinely future dates beyond the current date anywhere on Earth", () => {
+    const futureDate = "2099-12-31";
+    const parsed = parseDashboardParams({
+      repo: "owner/repo",
+      from: "2026-01-01",
+      to: futureDate,
+      tz: "UTC",
+    });
+
+    expect(parsed.isValid).toBe(false);
+    expect(parsed.errors.to).toBe("End date cannot be in the future.");
+  });
+
+  it("accepts local timezone today when user specifies non-UTC timezone", () => {
+    const localToday = getTodayInTimeZone("Africa/Nairobi");
+    const parsed = parseDashboardParams({
+      repo: "owner/repo",
+      from: "2026-01-01",
+      to: localToday,
+      tz: "Africa/Nairobi",
+    });
+
+    expect(parsed.isValid).toBe(true);
+    expect(parsed.errors.to).toBeUndefined();
   });
 });
