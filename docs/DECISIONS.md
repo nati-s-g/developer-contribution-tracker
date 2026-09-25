@@ -1,6 +1,6 @@
 # Architectural Decisions Record
 
-This document records the foundational architectural decisions made throughout the development of the **Internship Contribution Tracker**, the alternatives considered, and the concrete engineering rationale for each choice. It is structured to serve as technical preparation for engineering design reviews and technical interviews.
+This document records the foundational architectural decisions made throughout the development of the **Developer Contribution Tracker**, the alternatives considered, and the concrete engineering rationale for each choice. It is structured to serve as technical preparation for engineering design reviews and technical interviews.
 
 ---
 

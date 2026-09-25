@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         Accept: "application/vnd.github+json",
-        "User-Agent": "Internship-Contribution-Tracker",
+        "User-Agent": "Developer-Contribution-Tracker",
       },
       cache: "no-store",
     });

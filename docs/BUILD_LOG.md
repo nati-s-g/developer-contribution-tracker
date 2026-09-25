@@ -383,3 +383,49 @@
   - Unit tests: 11 passing (`npm run test`).
   - Production build: succeeded (`npm run build`).
   - Verified localhost HTTP rendering across Overview, Timeline, and Pull Requests tabs (HTTP 200).
+
+## Rebranding, Brand Logo Integration & Timing Bug Fix
+
+### What changed
+
+- **GitHub Issue Opened**:
+  - Opened GitHub Issue [#2](https://github.com/nati-s-g/developer-contribution-tracker/issues/2): "Improvement: branding, logo integration, and end-date timezone validation".
+- **Product Rebranding ("Developer Contribution Tracker")**:
+  - Renamed the product from "Internship Contribution Tracker" to "Developer Contribution Tracker" everywhere in the codebase:
+    - Root metadata: `app/layout.tsx` (`title: "Developer Contribution Tracker"`)
+    - Dashboard metadata: `app/dashboard/layout.tsx` (`title: "Dashboard · Developer Contribution Tracker"`)
+    - Application header: `components/shell/title-bar.tsx`
+    - Welcome / Sign-in screen: `app/page.tsx`
+    - API clients: `lib/github/client.ts` and `app/api/auth/callback/github/route.ts` (`User-Agent: Developer-Contribution-Tracker`)
+    - Package manifest: `package.json` and `package-lock.json` (`"name": "developer-contribution-tracker"`)
+    - Documentation: `README.md`, `docs/DECISIONS.md`, `.env.example`, and `AGENTS.md`.
+- **Product Logo Integration (`public/logo.png`, `public/logo-icon.png`)**:
+  - Processed the user-uploaded brand logo asset:
+    - Extracted a crisp, transparent-background version of the stylized "Dev." wordmark saved to `public/logo.png`.
+    - Extracted a 1:1 square icon containing the ribbon-checkmark 'D' mark saved to `public/logo-icon.png`.
+    - Preserved original asset in `public/logo-full.png`.
+  - Integrated `logo-icon.png` into `TitleBar` beside the application title.
+  - Positioned `logo.png` prominently in the hero section of the welcome page (`app/page.tsx`).
+  - Added favicon icon metadata in `app/layout.tsx` and `app/dashboard/layout.tsx`.
+- **Timing & Future Date Bug Fix**:
+  - **Root Cause**: When a user in a timezone ahead of UTC (e.g. UTC+3) selected today's date (e.g. `2026-09-26`), the server validated against `getTodayInTimeZone("UTC")` (which was still `2026-09-25` in UTC). Furthermore, the client defaulted missing query parameters to `"UTC"` rather than detecting the user's browser timezone.
+  - **Client Fix**: Updated `dashboard-shell.tsx` to detect browser timezone using `React.useSyncExternalStore` (avoiding cascading effect re-renders) and forward it to `Sidebar` and `StatusBar`. Updated `date-range-picker.tsx` to resolve the actual browser timezone on form submission.
+  - **Server Fix**: In `lib/utils/search-params.ts`, added `getLatestEarthDate()` (evaluating `Pacific/Kiritimati` UTC+14). Allowed end dates up to `maxAllowedDate = Math.max(todayInTz, latestEarthDate)`. Genuinely future dates (e.g. tomorrow globally or future years) are strictly rejected, while today's calendar date is accepted globally regardless of UTC lag.
+  - **Unit Tests**: Added 3 new unit tests in `test/contributions.test.ts` verifying global calendar boundary checks and timezone date handling (14/14 tests passing).
+- **Verification**:
+  - `npm run format`: passed.
+  - `npm run lint`: passed (0 errors, 0 warnings).
+  - `npm run typecheck`: passed (0 errors).
+  - `npm run test`: 14 unit tests passing.
+  - `npm run build`: optimized production build passed.
+  - Local server verified: `http://localhost:3000/dashboard?repo=owner/repo&from=2026-01-01&to=2026-09-26&tz=UTC` returns HTTP 200 with zero future date errors.
+
+## Production Vercel Logo Replacement & Favicon Generation
+
+### What changed
+
+- Replaced default Next.js `app/favicon.ico` with high-resolution Dev. brand icon.
+- Generated `app/icon.png` (32x32) for Next.js App Router automatic metadata resolution.
+- Configured Apple touch icon and standard PNG icon arrays in `RootLayout` and `DashboardLayout`.
+- Refined `TitleBar` and `WelcomePage` header logo elements with `priority` preloading, `drop-shadow`, and 20px sizing.
+- Synchronized branch with `origin/main` to ensure Vercel production build deploys the updated logo and branding.

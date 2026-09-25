@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Terminal, PanelLeft, LogOut } from "lucide-react";
+import Image from "next/image";
+import { PanelLeft, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TitleBarProps {
@@ -30,11 +31,18 @@ export function TitleBar({ onOpenMobileSidebar, user = null }: TitleBarProps) {
 
         <Link
           href="/"
-          className="flex items-center gap-1.5 text-[var(--fg-strong)] transition-opacity hover:opacity-85 focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
+          className="flex items-center gap-2 text-[var(--fg-strong)] transition-opacity hover:opacity-85 focus-visible:outline-1 focus-visible:outline-[var(--focus)]"
         >
-          <Terminal className="size-3.5 text-[var(--link)]" />
-          <span className="font-medium tracking-tight">
-            Internship Contribution Tracker
+          <Image
+            src="/logo-icon.png"
+            alt="Dev. Logo"
+            width={20}
+            height={20}
+            priority
+            className="size-5 shrink-0 object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+          />
+          <span className="font-sans text-xs font-semibold tracking-tight">
+            Developer Contribution Tracker
           </span>
         </Link>
       </div>

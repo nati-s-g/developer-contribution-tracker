@@ -3,8 +3,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Internship Contribution Tracker",
+  title: "Developer Contribution Tracker",
   description: "Developer Contribution Report Generator",
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/logo-icon.png", type: "image/png" },
+    ],
+    apple: "/logo-icon.png",
+  },
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-# Internship Contribution Tracker — Project Rules
+# Developer Contribution Tracker — Project Rules
 
 Always-on context for AI coding agents. It is deliberately short; the detailed instructions live in the step prompts. If this file and the repository disagree, inspect the repository, explain the difference, and do not blindly overwrite existing code.
 
@@ -10,7 +10,7 @@ Core question it answers: "What did I actually contribute to this project during
 
 Pipeline: GitHub sign-in → pick repository → pick date range → fetch activity → process and categorize → show summary.
 
-Working name: Internship Contribution Tracker. Product concept: Developer Contribution Report Generator. Internships are the first use case, not the limit: users may be interns, employees, freelancers, students, or open-source contributors. Keep code, types and copy neutral ("contribution", "developer", "period"). The word "internship" appears only in the app-name constant.
+Working name: Developer Contribution Tracker. Product concept: Developer Contribution Report Generator. Internships, freelance work, full-time engineering, and open source are all supported: users may be interns, employees, freelancers, students, or open-source contributors. Keep code, types and copy neutral ("contribution", "developer", "period").
 
 ## 2. MVP scope
 
@@ -75,7 +75,7 @@ Before ANY UI work (layout, component, styling, chart, copy), load and follow th
 4. Explain important decisions briefly while working. The developer must be able to explain this project in an interview, so say what each new file is for and why it is designed that way.
 5. If a requirement is unclear and the choice is risky, ask one focused question. If the choice is low-risk, use the simplest reasonable default and note it.
 6. Verify with what applies: `npm run typecheck`, `npm run lint`, `npm run build`, tests, and a real run. Report results exactly as they were. Never say something passed or works unless you ran it, and say what you could not check.
-7. Do not commit or push unless asked; propose a commit message. Never put secrets in git.
+7. Commit cadence: For every user prompt requesting implementation work, break the work down into at least 4 incremental, logical commits along the way with clear, descriptive commit messages describing each subtask completed, followed by a final push to the remote branch once all verification passes. Never put secrets in git.
 8. At the end of each step, append a short entry to `docs/BUILD_LOG.md`: what changed, decisions and why, known limitations, open questions.
 9. Finish with what changed, what was verified, and what is left. Then stop and wait for the next step.
 

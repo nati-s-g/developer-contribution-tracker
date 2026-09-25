@@ -5,8 +5,15 @@ import { listRepositories } from "@/lib/github";
 import type { RepositorySummary } from "@/types/contributions";
 
 export const metadata: Metadata = {
-  title: "Dashboard · Internship Contribution Tracker",
+  title: "Dashboard · Developer Contribution Tracker",
   description: "View and filter repository contribution activity",
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/logo-icon.png", type: "image/png" },
+    ],
+    apple: "/logo-icon.png",
+  },
 };
 
 export default async function DashboardLayout({
